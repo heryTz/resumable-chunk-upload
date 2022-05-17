@@ -1,1 +1,1 @@
-// (new Uploader()).upload()
+(new Uploader()).upload()
