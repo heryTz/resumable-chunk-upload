@@ -1,1 +1,1 @@
-console.log('Upload')
+// (new Uploader()).upload()
