@@ -5,7 +5,8 @@
   "main": "uploader.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "NODE_ENV=prod node esbuild.js",
+    "dev": "NODE_ENV=dev node esbuild.js"
   },
   "repository": {
     "type": "git",

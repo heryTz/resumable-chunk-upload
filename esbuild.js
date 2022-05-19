@@ -1,9 +1,13 @@
-import { buildSync } from "esbuild"
+import { build } from "esbuild"
 
-buildSync({
+const isProd = process.env.NODE_ENV === 'prod'
+
+build({
     entryPoints: ['uploader.js'],
     bundle: true,
-    minify: true,
-    drop: ['console', 'debugger'],
+    minify: isProd,
     outfile: 'dist/uploader.min.js'
+})
+.then(() => {
+    console.log('Build')
 })

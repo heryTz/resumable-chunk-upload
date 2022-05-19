@@ -7,10 +7,20 @@
     <title>Resumable chunk upload</title>
 </head>
 <body>
-    <input type="file">
-    <button>Upload</button>
+    <p>
+        <input type="file">
+        <button id="upload">Upload</button>
+        <button id="stop">Stop</button>
+    </p>
+    <p>
+        <b>Progress:</b> <span id="progress">0</span> %
+    </p>
+    <p>
+        <b>Remaining time:</b> <span id="remaining">0</span> seconds
+    </p>
 
-    <script src="../dist/uploader.js"></script>
+
+    <script src="../dist/uploader.min.js"></script>
     <script src="upload.js"></script>
 </body>
 </html>
