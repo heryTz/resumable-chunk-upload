@@ -1,13 +1,12 @@
 
 export default class Uploader {
-    baseUrl = null
     file = null
     fileId = ''
     chunkNumber = 1
     chunkSize = 10485760 // 10Mo
     chunkCount = 1
-    lastChunkUploadedPath = '/lastChunkUploaded'
-    uploadPath = '/upload'
+    uploadStatusUrl = null
+    uploadUrl = null
     progressTimeout = 3000 // ms
     requestTimeout = null
     xhr = new XMLHttpRequest()
@@ -17,7 +16,7 @@ export default class Uploader {
 
     onProgress = () => {}
 
-    getLastChunkUploaded = async () => {
+    getUploadStatus = async () => {
         return new Promise((resolve, reject) => {
             this.chunkCount = Math.ceil(this.file.size / this.chunkSize)
     
@@ -25,9 +24,11 @@ export default class Uploader {
                 fileId: this.getFileId(),
                 chunkCount: this.chunkCount
             })
+
+            if (!Number.isInteger(this.chunkCount) || !this.uploadStatusUrl || !this.uploadUrl) reject(new UploadError(UploadError.INVALID_CONFIGURATION))
     
             const xhr = new XMLHttpRequest()
-            xhr.open('GET', `${this.baseUrl}${this.lastChunkUploadedPath}?${params}`, true)
+            xhr.open('GET', `${this.uploadStatusUrl}?${params}`, true)
             xhr.responseType = 'json'
             if (this.requestTimeout !== null) xhr.timeout = this.requestTimeout
 
@@ -58,7 +59,7 @@ export default class Uploader {
     uploadFile = async () => {
         return new Promise((resolve, reject) => {
             const xhr = this.xhr
-            xhr.open('POST', `${this.baseUrl}${this.uploadPath}`, true)
+            xhr.open('POST', `${this.uploadUrl}`, true)
             xhr.responseType = 'json'
             if (this.requestTimeout !== null) xhr.timeout = this.requestTimeout
 
@@ -118,7 +119,7 @@ export default class Uploader {
     
     upload = async () => {
         try {
-            const lastChunk = await this.getLastChunkUploaded()
+            const lastChunk = await this.getUploadStatus()
             this.chunkNumber = lastChunk + 1
             
             // initialize remaining time calcul
@@ -157,8 +158,13 @@ export default class Uploader {
         return this.fileId || defaultId
     }
 
-    setBaseUrl = (url) => {
-        this.baseUrl = removeTrailingSlash(url)
+    setUploadStatusUrl = (url) => {
+        this.uploadStatusUrl = removeTrailingSlash(url)
+        return this
+    }
+
+    setUploadUrl = (url) => {
+        this.uploadUrl = removeTrailingSlash(url)
         return this
     }
 
@@ -168,7 +174,7 @@ export default class Uploader {
     }
 
     setChunkSize = (size) => {
-        this.chunkSize = parseInt(size)
+        this.chunkSize = size
         return this
     }
 
@@ -214,6 +220,7 @@ class UploadError {
     static UPLOAD_FILE_ERROR = 'UPLOAD_FILE_ERROR'
     static UPLOAD_ABORTED = 'UPLOAD_ABORTED'
     static REQUEST_TIMEOUT = 'REQUEST_TIMEOUT'
+    static INVALID_CONFIGURATION = 'INVALID_CONFIGURATION'
 
     constructor(message, data) {
         this.message = message

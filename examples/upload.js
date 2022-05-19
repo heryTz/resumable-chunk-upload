@@ -3,7 +3,8 @@ const progress = document.querySelector('#progress')
 const remaining = document.querySelector('#remaining')
 
 const uploader = (new Uploader())
-    .setBaseUrl('http://localhost:9000')
+    .setUploadStatusUrl('http://localhost:9000/uploadStatus')
+    .setUploadUrl('http://localhost:9000/upload')
     .setChunkSize(10 ** 3)
     .onProgress(info => {
         progress.innerHTML = info.percent
