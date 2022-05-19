@@ -9,6 +9,7 @@ export default class Uploader {
     lastChunkUploadedPath = '/lastChunkUploaded'
     uploadPath = '/upload'
     progressTimeout = 3000 // ms
+    requestTimeout = null
     xhr = new XMLHttpRequest()
     remainingTimeCalculator = new RemainingTimeCalculator(new Date(), 0)
     uploadAborted = false
@@ -28,10 +29,15 @@ export default class Uploader {
             const xhr = new XMLHttpRequest()
             xhr.open('GET', `${this.baseUrl}${this.lastChunkUploadedPath}?${params}`, true)
             xhr.responseType = 'json'
+            if (this.requestTimeout !== null) xhr.timeout = this.requestTimeout
 
             Object.keys(this.headers).forEach(key => {
                 xhr.setRequestHeader(key, this.headers[key])
             })
+
+            xhr.ontimeout = () => {
+                reject(new UploadError(UploadError.REQUEST_TIMEOUT, xhr))
+            }
 
             xhr.onerror = xhr.onabort = () => {
                 reject(new UploadError(UploadError.GET_LAST_CHUNK_UPLOADED, xhr))
@@ -54,6 +60,7 @@ export default class Uploader {
             const xhr = this.xhr
             xhr.open('POST', `${this.baseUrl}${this.uploadPath}`, true)
             xhr.responseType = 'json'
+            if (this.requestTimeout !== null) xhr.timeout = this.requestTimeout
 
             Object.keys(this.headers).forEach(key => {
                 xhr.setRequestHeader(key, this.headers[key])
@@ -85,6 +92,10 @@ export default class Uploader {
             xhr.onabort = (e) => {
                 this.chunkNumber = 1
                 reject(new UploadError(UploadError.UPLOAD_ABORTED, xhr))
+            }
+
+            xhr.ontimeout = () => {
+                reject(new UploadError(UploadError.REQUEST_TIMEOUT, xhr))
             }
             
             xhr.upload.onprogress = throttle(e => {
@@ -171,6 +182,11 @@ export default class Uploader {
         return this
     }
 
+    setRequestTimeout = (requestTimeout) => {
+        this.requestTimeout = requestTimeout
+        return this
+    }
+
 }
 
 class RemainingTimeCalculator {
@@ -197,6 +213,7 @@ class UploadError {
     static GET_LAST_CHUNK_UPLOADED = 'GET_LAST_CHUNK_UPLOADED'
     static UPLOAD_FILE_ERROR = 'UPLOAD_FILE_ERROR'
     static UPLOAD_ABORTED = 'UPLOAD_ABORTED'
+    static REQUEST_TIMEOUT = 'REQUEST_TIMEOUT'
 
     constructor(message, data) {
         this.message = message
