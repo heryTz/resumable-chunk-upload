@@ -12,6 +12,7 @@ export default class Uploader {
     xhr = new XMLHttpRequest()
     remainingTimeCalculator = new RemainingTimeCalculator(new Date(), 0)
     uploadAborted = false
+    headers = {}
 
     onProgress = () => {}
 
@@ -27,6 +28,10 @@ export default class Uploader {
             const xhr = new XMLHttpRequest()
             xhr.open('GET', `${this.baseUrl}${this.lastChunkUploadedPath}?${params}`, true)
             xhr.responseType = 'json'
+
+            Object.keys(this.headers).forEach(key => {
+                xhr.setRequestHeader(key, this.headers[key])
+            })
 
             xhr.onerror = xhr.onabort = () => {
                 reject(new UploadError(UploadError.GET_LAST_CHUNK_UPLOADED, xhr))
@@ -49,6 +54,10 @@ export default class Uploader {
             const xhr = this.xhr
             xhr.open('POST', `${this.baseUrl}${this.uploadPath}`, true)
             xhr.responseType = 'json'
+
+            Object.keys(this.headers).forEach(key => {
+                xhr.setRequestHeader(key, this.headers[key])
+            })
     
             const form = new FormData()
             form.append('file', this.getChunk())
@@ -154,6 +163,11 @@ export default class Uploader {
 
     setFileId = (id) => {
         this.fileId = id
+        return this
+    }
+
+    setHeaders = (headers) => {
+        this.headers = headers ?? {}
         return this
     }
 
