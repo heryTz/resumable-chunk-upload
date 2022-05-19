@@ -63,7 +63,7 @@ export default class Uploader {
                 if (xhr.status === 200) {
                     this.chunkNumber++
                     if (this.chunkNumber <= this.chunkCount) {
-                        this.uploadFile()
+                        this.uploadFile().then(resolve).catch(reject)
                     } else {
                         resolve(xhr)
                     }
