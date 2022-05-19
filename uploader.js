@@ -9,13 +9,13 @@ export default class Uploader {
     lastChunkUploadedPath = '/lastChunkUploaded'
     uploadPath = '/upload'
     progressTimeout = 3000 // ms
-    xrh = new XMLHttpRequest()
+    xhr = new XMLHttpRequest()
     remainingTimeCalculator = new RemainingTimeCalculator(new Date(), 0)
     uploadAborted = false
 
     onProgress = () => {}
 
-    getLastChunkUploaded = () => {
+    getLastChunkUploaded = async () => {
         return new Promise((resolve, reject) => {
             this.chunkCount = Math.ceil(this.file.size / this.chunkSize)
     
@@ -44,9 +44,9 @@ export default class Uploader {
         })
     }
 
-    uploadFile = () => {
+    uploadFile = async () => {
         return new Promise((resolve, reject) => {
-            const xhr = this.xrh
+            const xhr = this.xhr
             xhr.open('POST', `${this.baseUrl}${this.uploadPath}`, true)
             xhr.responseType = 'json'
     
@@ -108,8 +108,7 @@ export default class Uploader {
             // Reset some variable
             this.uploadAborted = false
 
-            await this.uploadFile()
-            return this.xhr
+            return await this.uploadFile()
         } catch (e) {
             throw e
         }
@@ -123,7 +122,7 @@ export default class Uploader {
 
     abort = () => {
         this.uploadAborted = true
-        this.xrh.abort()
+        this.xhr.abort()
     }
 
     getChunk = () => {

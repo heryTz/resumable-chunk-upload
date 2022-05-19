@@ -13,11 +13,14 @@ const uploader = (new Uploader())
 document.querySelector('#upload').addEventListener('click', e => {
     const file = input.files[0];
 
+    progress.innerHTML = 0
+    progress.innerHTML = 0
+
     uploader
     .setFile(file)
     .upload()
         .then(xhr => {
-            console.log('success', xhr)
+            console.log('success', xhr.response)
         })
         .catch(e => {
             console.log('error', e)
