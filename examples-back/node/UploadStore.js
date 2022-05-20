@@ -1,10 +1,6 @@
 import fs from 'fs'
 
 /**
- * This class manages the identification of the upload and these chunks.
- */
-
-/**
  * @typedef {Object} Upload
  * @property {any} id
  * @property {number} chunkCount
@@ -12,6 +8,9 @@ import fs from 'fs'
  * @property {array} chunks
  */
 
+/**
+ * This class manages the identification of the upload and these chunks.
+ */
 export default class UploadStore {
     /**
      * List of uploads

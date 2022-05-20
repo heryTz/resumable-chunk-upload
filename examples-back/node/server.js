@@ -6,18 +6,19 @@ import UploadStore from './UploadStore.js'
 
 const app = express()
 const port = 9000
-// Multer manage multipart/form-data request
-const upload = multer()
-
-// Data storage manager for uploaded chunk
-// The ideal is that these data are persisted so that they are not lost in the event of a server shutdown
-const uploadStore = new UploadStore('uploadStore.json')
 
 app.use(cors())
 app.use(express.json({
 	limit: '50mo'
 }))
 app.use(express.urlencoded({ extended: true }))
+
+// Multer manage multipart/form-data request
+const upload = multer()
+
+// Data storage manager for uploaded chunk
+// The ideal is that these data are persisted so that they are not lost in the event of a server shutdown
+const uploadStore = new UploadStore('uploadStore.json')
 
 const TMP_PATH = 'tmp/'
 const DATA_PATH = 'data/'
@@ -30,6 +31,7 @@ fs.mkdirSync(DATA_PATH, { recursive: true })
  * @property {string|number} fileId
  * @property {number} chunkCount
  */
+
 app.get('/uploadStatus', async (req, res) => {
 	/**
 	 * @type {UploadStatusDto}
@@ -71,6 +73,7 @@ app.get('/uploadStatus', async (req, res) => {
  * @property {number} chunkSize
  * @property {number} fileSize
  */
+
 app.post('/upload', upload.single('file'), async (req, res) => {
 	/**
 	 * You may need this information
