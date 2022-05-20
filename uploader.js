@@ -227,6 +227,9 @@ class UploadError {
         this.data = data
     }
 
+    toString() {
+        return this.message
+    }
 }
 
 const removeTrailingSlash = str => str.replace(/\/+$/, '')

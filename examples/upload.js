@@ -1,6 +1,7 @@
 const input = document.querySelector('input')
 const progress = document.querySelector('#progress')
 const remaining = document.querySelector('#remaining')
+const feedback = document.querySelector('#feedback')
 
 const uploader = (new Uploader())
     .setUploadStatusUrl('http://localhost:9000/uploadStatus')
@@ -16,15 +17,16 @@ document.querySelector('#upload').addEventListener('click', e => {
 
     progress.innerHTML = 0
     progress.innerHTML = 0
+    feedback.innerHTML = ''
 
     uploader
     .setFile(file)
     .upload()
         .then(xhr => {
-            console.log('success', xhr.response)
+            feedback.insertAdjacentHTML('beforeend', `<b>success:</b> <pre>${JSON.stringify(xhr.response, null, 2)}</pre>`)
         })
         .catch(e => {
-            console.log('error', e)
+            feedback.insertAdjacentHTML('beforeend', `<b>failed:</b> ${e}`)
         })
 })
 
