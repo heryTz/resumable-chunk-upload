@@ -1,0 +1,7 @@
+{
+    "ext": "js",
+    "ingore": [
+        "uploadStore.json"
+    ],
+    "exec": "node server.js"
+}
