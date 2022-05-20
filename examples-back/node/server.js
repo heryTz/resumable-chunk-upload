@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import multer from 'multer'
-import fs from 'fs'
+import fs, { writeFileSync } from 'fs'
 import UploadStore from './UploadStore.js'
 
 const app = express()
@@ -21,6 +21,9 @@ app.use(express.urlencoded({ extended: true }))
 
 const TMP_PATH = 'tmp/'
 const DATA_PATH = 'data/'
+// Create directories
+fs.mkdirSync(TMP_PATH, { recursive: true })
+fs.mkdirSync(DATA_PATH, { recursive: true })
 
 /**
  * @typedef {Object} UploadStatusDto
