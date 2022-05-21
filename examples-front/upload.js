@@ -10,7 +10,7 @@ const uploader = (new Uploader())
     .onProgress(info => {
         progress.innerHTML = info.percent
         remaining.innerHTML = info.remaining
-    }, 2000)
+    }, 1000)
 
 document.querySelector('#upload').addEventListener('click', e => {
     const file = input.files[0];

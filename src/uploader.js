@@ -19,6 +19,15 @@ export default class Uploader {
 
     onProgress = () => {}
 
+    checkParameters = async () => {
+        // Mandatory parameters validation
+        if (!this.file) throw new UploadError(UploadError.NO_FILE)
+        if (this.getFileId()?.length <= 0) throw new UploadError(UploadError.NO_FILE_ID)
+        if (typeof this.uploadStatusUrl !== 'string') throw new UploadError(UploadError.NO_UPLOAD_STATUS_URL)
+        if (typeof this.uploadUrl !== 'string') throw new UploadError(UploadError.NO_UPLOAD_URL)
+        return true
+    }
+
     getUploadStatus = async () => {
         return new Promise((resolve, reject) => {
             this.chunkCount = Math.ceil(this.file.size / this.chunkSize)
@@ -28,8 +37,6 @@ export default class Uploader {
                 chunkCount: this.chunkCount
             })
 
-            if (!Number.isInteger(this.chunkCount) || !this.uploadStatusUrl || !this.uploadUrl) reject(new UploadError(UploadError.INVALID_CONFIGURATION))
-    
             const xhr = new XMLHttpRequest()
             xhr.open('GET', `${this.uploadStatusUrl}?${params}`, true)
             xhr.responseType = 'json'
@@ -81,8 +88,8 @@ export default class Uploader {
             
             xhr.onload = xhr.onerror = (e) => {
                 if (xhr.status === 200) {
-                    this.chunkNumber++
-                    if (this.chunkNumber <= this.chunkCount) {
+                    if (this.chunkNumber < this.chunkCount) {
+                        this.chunkNumber++
                         this.uploadFile().then(resolve).catch(reject)
                     } else {
                         resolve(xhr)
@@ -94,7 +101,6 @@ export default class Uploader {
             }
             
             xhr.onabort = (e) => {
-                this.chunkNumber = 1
                 reject(new UploadError(UploadError.UPLOAD_ABORTED, xhr))
             }
 
@@ -109,11 +115,18 @@ export default class Uploader {
                 const loaded = chunkAlreadyUploaded + e.loaded
                 const total = this.file.size
                 const percent = Math.min(Math.ceil((loaded / total) * 100), 100)
+
+                // After various tests, it was found that the event result of the calculations of the progress and the remaining time give 
+                // values ​​close to the end of the upload. In this case, we decided to manually force the values ​​of the progress and the remaining time 
+                // to 100 and 0 respectively.
+                const isFinished = this.chunkNumber === this.chunkCount
+
                 this.onProgress && this.onProgress({ 
-                    percent, 
-                    loaded,
-                    remaining: this.remainingTimeCalculator.increaseBytesUploaded(e.loaded).calcul(this.chunkLoaded)
+                    percent: isFinished ? 100 : percent, 
+                    loaded: isFinished ? this.file.size : loaded,
+                    remaining: isFinished ? 0 : this.remainingTimeCalculator.increaseBytesUploaded(e.loaded).calcul(this.chunkLoaded)
                 })
+
             }, this.progressTimeout)
 
             xhr.send(form)
@@ -122,6 +135,8 @@ export default class Uploader {
     
     upload = async () => {
         try {
+            await this.checkParameters()
+
             const lastChunk = await this.getUploadStatus()
             this.chunkNumber = lastChunk + 1
             
@@ -158,7 +173,7 @@ export default class Uploader {
     getFileId = () => {
         const ext = this.file.name.split('.').pop()
         const defaultId = `${this.file.size}-${this.file.lastModified}.${ext}`
-        return this.fileId || defaultId
+        return this.fileId ?? defaultId
     }
 
     setUploadStatusUrl = (url) => {

@@ -81,11 +81,11 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 	 */
 	const body = req.body
 	const fileId = body.fileId
-	const chunkNumber = body.chunkNumber
+	const chunkNumber = parseInt(body.chunkNumber)
 	const originalFilename = body.originalFilename
-	const chunkCount = body.chunkCount
-	const chunkSize = body.chunkSize
-	const fileSize = body.fileSize
+	const chunkCount = parseInt(body.chunkCount)
+	const chunkSize = parseInt(body.chunkSize)
+	const fileSize = parseInt(body.fileSize)
 
 	try {
 		// Some validation
