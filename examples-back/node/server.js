@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import multer from 'multer'
-import fs, { writeFileSync } from 'fs'
-import UploadStore from './UploadStore.js'
+import fs from 'fs'
+import UploadStore from './upload-store.js'
 
 const app = express()
 const port = 9000
