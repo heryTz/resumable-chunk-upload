@@ -1,7 +1,10 @@
+import RemainingTime from "./remaning-time"
+import UploadError from "./upload-error"
+import { queryParams, throttle, removeTrailingSlash } from './util'
 
 export default class Uploader {
     file = null
-    fileId = ''
+    fileId = null
     chunkNumber = 1
     chunkSize = 10485760 // 10Mo
     chunkCount = 1
@@ -10,7 +13,7 @@ export default class Uploader {
     progressTimeout = 3000 // ms
     requestTimeout = null
     xhr = new XMLHttpRequest()
-    remainingTimeCalculator = new RemainingTimeCalculator(new Date(), 0)
+    remainingTimeCalculator = new RemainingTime(new Date(), 0)
     uploadAborted = false
     headers = {}
 
@@ -124,7 +127,7 @@ export default class Uploader {
             
             // initialize remaining time calcul
             const restByteToUpload = this.file.slice((this.chunkNumber - 1) * this.chunkSize).size
-            this.remainingTimeCalculator = new RemainingTimeCalculator(new Date(), restByteToUpload)
+            this.remainingTimeCalculator = new RemainingTime(new Date(), restByteToUpload)
             
             // Reset some variable
             this.uploadAborted = false
@@ -194,59 +197,3 @@ export default class Uploader {
     }
 
 }
-
-class RemainingTimeCalculator {
-
-    constructor(timeStarted, totalSize) {
-        this.timeStarted = timeStarted
-        this.totalSize = totalSize
-        this.uploadedBytes = 0
-    }
-
-    increaseBytesUploaded = (bytes) => {
-        this.uploadedBytes += bytes
-        return this
-    }
-
-    calcul = () => {
-        let timeElapsed = (Date.now() - this.timeStarted.getTime()) / 1000 // (s)
-        let uploadSpeed = this.uploadedBytes / timeElapsed
-        return Math.max(Math.floor((this.totalSize - this.uploadedBytes) / uploadSpeed), 0)
-    }
-} 
-
-class UploadError {
-    static GET_LAST_CHUNK_UPLOADED = 'GET_LAST_CHUNK_UPLOADED'
-    static UPLOAD_FILE_ERROR = 'UPLOAD_FILE_ERROR'
-    static UPLOAD_ABORTED = 'UPLOAD_ABORTED'
-    static REQUEST_TIMEOUT = 'REQUEST_TIMEOUT'
-    static INVALID_CONFIGURATION = 'INVALID_CONFIGURATION'
-
-    constructor(message, data) {
-        this.message = message
-        this.data = data
-    }
-
-    toString() {
-        return this.message
-    }
-}
-
-const removeTrailingSlash = str => str.replace(/\/+$/, '')
-
-const queryParams = (query) => Object.keys(query).map(key => `${key}=${query[key]}`).join('&')
-
-let throttlePause = false
-const throttle = (callback, time = 0) => {
-    return (...args) => {
-        if (throttlePause) return
-        throttlePause = true
-        setTimeout(() => {
-            callback.apply(null, args)
-            throttlePause = false
-        }, time)
-    }
-}
-
-window.Uploader = Uploader
-window.UploadError = UploadError
