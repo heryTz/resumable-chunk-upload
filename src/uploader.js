@@ -16,8 +16,7 @@ export default class Uploader {
     remainingTimeCalculator = new RemainingTime(new Date(), 0)
     uploadAborted = false
     headers = {}
-
-    onProgress = () => {}
+    handleProgress = null
 
     checkParameters = async () => {
         // Mandatory parameters validation
@@ -121,7 +120,7 @@ export default class Uploader {
                 // to 100 and 0 respectively.
                 const isFinished = this.chunkNumber === this.chunkCount
 
-                this.onProgress && this.onProgress({ 
+                this.handleProgress && this.handleProgress({ 
                     percent: isFinished ? 100 : percent, 
                     loaded: isFinished ? this.file.size : loaded,
                     remaining: isFinished ? 0 : this.remainingTimeCalculator.increaseBytesUploaded(e.loaded).calcul(this.chunkLoaded)
@@ -154,7 +153,7 @@ export default class Uploader {
     }
 
     onProgress = (callback, debounceTime) => {
-        this.onProgress = callback
+        this.handleProgress = callback
         if (debounceTime >= 0) this.progressTimeout = parseInt(debounceTime)
         return this
     }
