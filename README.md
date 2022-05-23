@@ -81,7 +81,7 @@ For the back, you can find in this [OpenApi](https://github.com/heryTz/resumable
 ```js
 // ...
     if (error instanceof UploadError) {
-        if (error.message === UploadError.UPLOAD_FILE_ERROR) {
+        if (error.message === 'UPLOAD_FILE_ERROR') {
             // Do something with error
         }
     }
@@ -98,17 +98,17 @@ class Uploader {
     /** 
      * File to upload (required).
      */
-    setFile(file: File): Uploader;
+    setFile(file: File): this;
 
     /**
      * Define the url used to retrieve the number of the last uploaded chunk (required).
      */
-    setUploadStatusUrl(url: string): Uploader;
+    setUploadStatusUrl(url: string): this;
 
     /**
      * Define the url used to upload alls chunks one by one until termination (required).
      */
-    setUploadUrl(url: string): Uploader;
+    setUploadUrl(url: string): this;
 
     /**
      * Starts the upload and gives the last xhr object of the request on completion. 
@@ -116,13 +116,13 @@ class Uploader {
      * This makes it possible to obtain the data returned by the back at the end of the upload 
      * to carry out other processing in case.
      */
-    upload(): Promise<xhr>;
+    upload(): Promise<XMLHttpRequest>;
     
     /**
      * Change file ID. By default, this value will be the file size + the date of the 
      * last modification.
      */
-    setFileId(id: string|number): Uploader;
+    setFileId(id: string|number): this;
     
     /**
      * Change chunk size. By default, this value will be 10 Mo.
@@ -130,23 +130,23 @@ class Uploader {
      * Note: Do not try to put the size of the pieces too small in production because it may 
      * slow down the upload.
      */
-    setChunkSize(size: number): Uploader;
+    setChunkSize(size: number): this;
     
     /**
      * Add specific headers like {"Authorization": "Bearer xx-token"}.
      */
-    setHeaders(headers: Record<string, string|number>): Uploader;
+    setHeaders(headers: Record<string, string|number>): this;
     
     /**
      * Add a tiemout for each request.
      */
-    setRequestTimeout(time: number): Uploader;
+    setRequestTimeout(time: number): this;
     
     /**
      * Listen progress event. It can have a throttle time in the second parameter. 
      * The defaut throttle time is 3000 ms.
      */
-    onProgress((info: UploadProgress) => void, throttleTime?: number): Uploader;
+    onProgress((info: UploadProgress) => void, throttleTime?: number): this;
     
     /**
      * Abort upload request.
@@ -160,7 +160,7 @@ class Uploader {
 ### UploadProgress
 
 ```ts
-type UploadProgress = {
+interface IUploadPogress {
 
     /** Percentage */
     percent: number;
@@ -175,21 +175,12 @@ type UploadProgress = {
 
 ### UploadError
 
-This class has these static attributes which identify errors. These attributes correspond to the value of the message
+Errors are identified by constants. These attributes correspond to the value of the message
 
 ```ts
 class UploadError {
-    static GET_LAST_CHUNK_UPLOADED = 'GET_LAST_CHUNK_UPLOADED';
-    static UPLOAD_FILE_ERROR = 'UPLOAD_FILE_ERROR';
-    static UPLOAD_ABORTED = 'UPLOAD_ABORTED';
-    static REQUEST_TIMEOUT = 'REQUEST_TIMEOUT';
-    static NO_FILE = 'NO_FILE';
-    static NO_FILE_ID = 'NO_FILE_ID';
-    static NO_UPLOAD_STATUS_URL = 'NO_UPLOAD_STATUS_URL';
-    static NO_UPLOAD_URL = 'NO_UPLOAD_URL';
-
     /**
-     * One of these static attributes.
+     * One of the constants.
      */
     message: string;
 
@@ -202,10 +193,10 @@ class UploadError {
 
 | Message | Data | Description |
 |---------|------|-------------|
-| GET_LAST_CHUNK_UPLOADED | xhr | Get last chunk's number error |
-| UPLOAD_FILE_ERROR |xhr| Upload file error |
-| UPLOAD_ABORTED | xhr | Upload aborted |
-| REQUEST_TIMEOUT | xhr | Request timeout |
+| GET_LAST_CHUNK_UPLOADED | XMLHttpRequest | Get last chunk's number error |
+| UPLOAD_FILE_ERROR |XMLHttpRequest| Upload file error |
+| UPLOAD_ABORTED | XMLHttpRequest | Upload aborted |
+| REQUEST_TIMEOUT | XMLHttpRequest | Request timeout |
 | NO_FILE | NO_FILE | Missing file parameter |
 | NO_FILE_ID | NO_FILE_ID | Missing file ID parameter |
 | NO_UPLOAD_STATUS_URL | NO_UPLOAD_STATUS_URL | Missing upload status url parameter |
