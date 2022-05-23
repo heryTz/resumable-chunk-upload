@@ -1,0 +1,96 @@
+openapi: 3.0.0
+x-stoplight:
+  id: k2gjdmt7yt65d
+info:
+  title: Resumable Chunk Upload
+  description: This is the documentation for the api that Resumable Chunk Upload expects
+  version: '1.0'
+  contact:
+    email: hery.rakotoariniaina@gmail.com
+servers:
+  - url: 'http://localhost:9000'
+paths:
+  /upload-status:
+    parameters: []
+    get:
+      summary: Retrieve last uploaded chunk's number
+      tags: []
+      responses:
+        '200':
+          description: A status code other than 200 says there is an error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lastChunk:
+                    type: number
+                    description: Last chunk's number. This should return zero if no upload information exists
+                    default: 0
+                required:
+                  - lastChunk
+      operationId: upload-status
+      description: Retrieve last uploaded chunk's number
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: fileId
+          description: ID used to identify the upload
+          required: true
+        - schema:
+            type: integer
+          in: query
+          name: chunkCount
+          description: Chunks' count
+          required: true
+  /upload:
+    parameters: []
+    post:
+      summary: Upload chunk file
+      operationId: upload
+      responses:
+        '200':
+          description: |-
+            You can just return a 200 to say the chunk upload is complete. Don't worry, we detect on the client side that the upload is finally finished and stopped.
+            You can return any value in the response If it's necessary.
+      description: Upload all chunks one by one until termination.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                fileId:
+                  type: string
+                  description: ID to identify the upload.
+                chunkNumber:
+                  type: number
+                  description: Chunk's number of the current upload.
+                originalFilename:
+                  type: string
+                  description: Original filename.
+                chunkCount:
+                  type: number
+                  description: Chunk's count.
+                chunkSize:
+                  type: number
+                  description: Chunk's size (byte)
+                fileSize:
+                  type: number
+                  description: File size.
+                file:
+                  type: string
+                  description: Binary file.
+                  format: binary
+              required:
+                - fileId
+                - chunkNumber
+                - originalFilename
+                - chunkCount
+                - chunkSize
+                - fileSize
+                - file
+components:
+  schemas: {}
+  securitySchemes: {}
