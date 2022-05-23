@@ -10,7 +10,7 @@ export default class Uploader {
     chunkCount = 1
     uploadStatusUrl = null
     uploadUrl = null
-    progressTimeout = 3000 // ms
+    progressThrottleTime = 3000 // ms
     requestTimeout = null
     xhr = new XMLHttpRequest()
     remainingTimeCalculator = new RemainingTime(new Date(), 0)
@@ -126,7 +126,7 @@ export default class Uploader {
                     remaining: isFinished ? 0 : this.remainingTimeCalculator.increaseBytesUploaded(e.loaded).calcul(this.chunkLoaded)
                 })
 
-            }, this.progressTimeout)
+            }, this.progressThrottleTime)
 
             xhr.send(form)
         })
@@ -152,9 +152,9 @@ export default class Uploader {
         }
     }
 
-    onProgress = (callback, debounceTime) => {
+    onProgress = (callback, throttleTime) => {
         this.handleProgress = callback
-        if (debounceTime >= 0) this.progressTimeout = parseInt(debounceTime)
+        if (throttleTime >= 0) this.progressThrottleTime = parseInt(throttleTime)
         return this
     }
 

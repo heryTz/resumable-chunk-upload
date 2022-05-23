@@ -6,7 +6,15 @@ Resumable Chunk Upload allows uploading files in small chunks. it offers a *simp
 
 Resumable Chunk Upload simply focuses on *Javascript clients* so it can be easily integrated into different frameworks frontend. For the back, there are different integrations on the various languages ​​in the [examples-back](https://github.com/heryTz/resumable-chunk-upload/tree/main/examples-back) folder and if you have other implementations, put it in this folder then make a [PR](https://github.com/heryTz/resumable-chunk-upload/pulls).
 
-Resumable chunk upload uses two APIs in its system. When you start the upload, it uses the first API to retrieve the number of the last uploaded chunk, then uploads the rest of the chunks one by one with the second API until termination.
+Resumable chunk upload uses two APIs in its system. When you start the upload, it uses the first API to retrieve the *number of the last uploaded chunk*, then uploads the rest of the *chunks one by one* with the second API until termination. The system sends an *ID* in each request to allow the back to identify the upload.
+
+## Contents
+
+* [Install](#install)
+* [Sample usage](#sample-usage)
+* [Backend](#backend)
+* [Handle error](#handle-error)
+* [API](#api)
 
 ## Install
 
@@ -36,7 +44,7 @@ document.querySelector('input').addEventListener('change', e => {
         .setUploadUrl('http://localhost:9000/upload')
         .onProgress(info => {
             // info.percent: Percentage progress
-            // info.loaded: File size already uploaded (octet)
+            // info.loaded: File size already uploaded (byte)
             // info.remaining:  Remaining time (second)
             // 1000: Throttle progress event with 1000 ms
         }, 1000)
@@ -64,6 +72,141 @@ Steps:
 
 You can see a more complete example [here](https://github.com/heryTz/resumable-chunk-upload/tree/main/examples-front).
 
-## Api
+## Backend
 
-s
+For the back, you can find in this [OpenApi](https://github.com/heryTz/resumable-chunk-upload/blob/main/api.yaml) documentation the integration of these two APIs. You can also take inspiration from these [examples](https://github.com/heryTz/resumable-chunk-upload/tree/main/examples-back) that already exist.
+
+## Handle error
+
+```js
+// ...
+    if (error instanceof UploadError) {
+        if (error.message === UploadError.UPLOAD_FILE_ERROR) {
+            // Do something with error
+        }
+    }
+// ...
+```
+
+## API
+
+### Uploader
+
+```ts
+class Uploader {
+
+    /** 
+     * File to upload (required).
+     */
+    setFile(file: File): Uploader;
+
+    /**
+     * Define the url used to retrieve the number of the last uploaded chunk (required).
+     */
+    setUploadStatusUrl(url: string): Uploader;
+
+    /**
+     * Define the url used to upload alls chunks one by one until termination (required).
+     */
+    setUploadUrl(url: string): Uploader;
+
+    /**
+     * Starts the upload and gives the last xhr object of the request on completion. 
+     * 
+     * This makes it possible to obtain the data returned by the back at the end of the upload 
+     * to carry out other processing in case.
+     */
+    upload(): Promise<xhr>;
+    
+    /**
+     * Change file ID. By default, this value will be the file size + the date of the 
+     * last modification.
+     */
+    setFileId(id: string|number): Uploader;
+    
+    /**
+     * Change chunk size. By default, this value will be 10 Mo.
+     * 
+     * Note: Do not try to put the size of the pieces too small in production because it may 
+     * slow down the upload.
+     */
+    setChunkSize(size: number): Uploader;
+    
+    /**
+     * Add specific headers like {"Authorization": "Bearer xx-token"}.
+     */
+    setHeaders(headers: Record<string, string|number>): Uploader;
+    
+    /**
+     * Add a tiemout for each request.
+     */
+    setRequestTimeout(time: number): Uploader;
+    
+    /**
+     * Listen progress event. It can have a throttle time in the second parameter. 
+     * The defaut throttle time is 3000 ms.
+     */
+    onProgress((info: UploadProgress) => void, throttleTime?: number): Uploader;
+    
+    /**
+     * Abort upload request.
+     */
+    abort(): void;
+}
+```
+
+**Note:** The required parameters must be defined before launching the upload.
+
+### UploadProgress
+
+```ts
+type UploadProgress = {
+
+    /** Percentage */
+    percent: number;
+
+    /** File size already loaded in byte */
+    loaded: number;
+
+    /** Remaining time in second */
+    remaining: number;
+}
+```
+
+### UploadError
+
+This class has these static attributes which identify errors. These attributes correspond to the value of the message
+
+```ts
+class UploadError {
+    static GET_LAST_CHUNK_UPLOADED = 'GET_LAST_CHUNK_UPLOADED';
+    static UPLOAD_FILE_ERROR = 'UPLOAD_FILE_ERROR';
+    static UPLOAD_ABORTED = 'UPLOAD_ABORTED';
+    static REQUEST_TIMEOUT = 'REQUEST_TIMEOUT';
+    static NO_FILE = 'NO_FILE';
+    static NO_FILE_ID = 'NO_FILE_ID';
+    static NO_UPLOAD_STATUS_URL = 'NO_UPLOAD_STATUS_URL';
+    static NO_UPLOAD_URL = 'NO_UPLOAD_URL';
+
+    /**
+     * One of these static attributes.
+     */
+    message: string;
+
+    /**
+     * See below the details.
+     */
+    data: any;
+}
+``` 
+
+| Message | Data | Description |
+|---------|------|-------------|
+| GET_LAST_CHUNK_UPLOADED | xhr | Get last chunk's number error |
+| UPLOAD_FILE_ERROR |xhr| Upload file error |
+| UPLOAD_ABORTED | xhr | Upload aborted |
+| REQUEST_TIMEOUT | xhr | Request timeout |
+| NO_FILE | NO_FILE | Missing file parameter |
+| NO_FILE_ID | NO_FILE_ID | Missing file ID parameter |
+| NO_UPLOAD_STATUS_URL | NO_UPLOAD_STATUS_URL | Missing upload status url parameter |
+| NO_UPLOAD_URL | NO_UPLOAD_URL | Missing upload url parameter |

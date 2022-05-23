@@ -7,3 +7,5 @@ yarn-debug.log*
 yarn-error.log*
 
 /dist-dev
+
+upload.code-workspace
