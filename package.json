@@ -1,6 +1,6 @@
 {
   "name": "resumable-chunk-upload",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Resumable chunk upload",
   "main": "dist/uploader.js",
   "types": "dist/index.d.ts",
