@@ -2,12 +2,11 @@
   "name": "resumable-chunk-upload",
   "version": "0.0.1",
   "description": "Resumable chunk upload",
-  "main": "src/index.js",
+  "main": "dist/uploader.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "NODE_ENV=prod node esbuild.js",
-    "dev": "NODE_ENV=dev node esbuild.js",
-    "tsc": "npx tsc"
+    "build": "NODE_ENV=prod node esbuild.js"
   },
   "repository": {
     "type": "git",

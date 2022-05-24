@@ -1,2 +1,5 @@
-/examples-back
-/examples-front
+examples-back
+examples-front
+src
+esbuild.js
+api.yaml

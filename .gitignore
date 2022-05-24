@@ -6,6 +6,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/dist-dev
-
 upload.code-workspace
+
+.DS_Store

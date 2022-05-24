@@ -3,18 +3,21 @@ import { buildSync } from "esbuild"
 const isProd = process.env.NODE_ENV === 'prod'
 
 if (isProd) {
+    // esm build
     buildSync({
-        entryPoints: ['src/index.js'],
+        entryPoints: ['src/index.ts'],
+        bundle: true,
+        format: 'esm',
+        outfile: 'dist/uploader.js'
+    })
+    
+    // bundle build
+    buildSync({
+        entryPoints: ['src/index.ts'],
         bundle: true,
         minify: true,
-        outfile: `dist/uploader.min.js`
+        outfile: 'dist/uploader.min.js'
     })
-}
-
-if (!isProd) {
-    buildSync({
-        entryPoints: ['src/index.js'],
-        bundle: true,
-        outfile: 'dist-dev/uploader.js'
-    })
+} else {
+    
 }
