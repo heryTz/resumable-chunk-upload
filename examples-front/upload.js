@@ -16,7 +16,6 @@ document.querySelector('#upload').addEventListener('click', e => {
     const file = input.files[0];
 
     progress.innerHTML = 0
-    progress.innerHTML = 0
     feedback.innerHTML = ''
 
     uploader
