@@ -88,7 +88,6 @@ For the back, you can find in this [OpenApi](https://github.com/heryTz/resumable
 
 ```ts
 class Uploader {
-
     /** 
      * File to upload (required).
      */
@@ -154,8 +153,7 @@ class Uploader {
 ### UploadProgress
 
 ```ts
-interface IUploadPogress {
-
+interface UploadPogress {
     /** Percentage */
     percent: number;
 
