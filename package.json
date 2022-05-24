@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "NODE_ENV=prod node esbuild.js",
-    "dev": "NODE_ENV=dev node esbuild.js"
+    "dev": "NODE_ENV=dev node esbuild.js",
+    "tsc": "npx tsc"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/heryTz/resumable-chunk-upload#readme",
   "devDependencies": {
-    "esbuild": "^0.14.39"
+    "esbuild": "^0.14.39",
+    "typescript": "^4.6.4"
   }
 }

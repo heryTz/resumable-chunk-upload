@@ -1,12 +1,15 @@
 export default class RemainingTime {
+    private timeStarted: Date
+    private totalSize: number
+    private uploadedBytes: number
 
-    constructor(timeStarted, totalSize) {
+    constructor(timeStarted: Date, totalSize: number) {
         this.timeStarted = timeStarted
         this.totalSize = totalSize
         this.uploadedBytes = 0
     }
 
-    increaseBytesUploaded = (bytes) => {
+    increaseBytesUploaded = (bytes: number) => {
         this.uploadedBytes += bytes
         return this
     }

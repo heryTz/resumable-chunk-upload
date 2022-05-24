@@ -5,5 +5,5 @@ export default Uploader
 
 export { UploadError }
 
-window.Uploader = Uploader
-window.UploadError = UploadError
+(window as any).Uploader = Uploader;
+(window as any).UploadError = UploadError
