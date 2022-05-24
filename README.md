@@ -81,7 +81,7 @@ For the back, you can find in this [OpenApi](https://github.com/heryTz/resumable
 ```js
 // ...
     if (error instanceof UploadError) {
-        if (error.message === UploadError.UPLOAD_FILE_ERROR) {
+        if (error.message === 'UPLOAD_FILE_ERROR') {
             // Do something with error
         }
     }
@@ -146,7 +146,7 @@ class Uploader {
      * Listen progress event. It can have a throttle time in the second parameter. 
      * The defaut throttle time is 3000 ms.
      */
-    onProgress((info: IUploadProgress) => void, throttleTime?: number): this;
+    onProgress((info: UploadProgress) => void, throttleTime?: number): this;
     
     /**
      * Abort upload request.
@@ -160,7 +160,7 @@ class Uploader {
 ### UploadProgress
 
 ```ts
-interface IUploadProgress {
+interface IUploadPogress {
 
     /** Percentage */
     percent: number;
@@ -175,12 +175,12 @@ interface IUploadProgress {
 
 ### UploadError
 
-Errors are identified by these constants. These attributes correspond to the value of the message
+Errors are identified by constants. These attributes correspond to the value of the message
 
 ```ts
 class UploadError {
     /**
-     * One of these static attributes.
+     * One of the constants.
      */
     message: string;
 
