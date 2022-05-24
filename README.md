@@ -24,12 +24,6 @@ Start by installing the package:
 npm install resumable-chunk-upload
 ```
 
-If you are on typescript, add the type definition:
-
-```bash
-npm install -D @types/resumable-chunk-upload
-```
-
 ## Sample usage
 
 ```js
