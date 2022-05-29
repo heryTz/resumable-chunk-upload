@@ -76,7 +76,7 @@ For the back, you can find in this [OpenApi](https://github.com/heryTz/resumable
 // ...
     if (error instanceof UploadError) {
         if (error.message === 'UPLOAD_FILE_ERROR') {
-            // Do something with error
+            // Do something
         }
     }
 // ...
