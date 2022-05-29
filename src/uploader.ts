@@ -116,8 +116,8 @@ export default class Uploader {
                 const total = this.file!.size
                 const percent = Math.min(Math.ceil((loaded / total) * 100), 100)
 
-                // After various tests, it was found that the event result of the calculations of the progress and the remaining time give 
-                // values ​​close to the end of the upload. In this case, we decided to manually force the values ​​of the progress and the remaining time 
+                // After various tests, it was found that the event result of the calculations of the progress and the remaining time give approximate
+                // values ​​on the end of the upload. In this case, we decided to manually force the values ​​of the progress and the remaining time 
                 // to 100 and 0 respectively.
                 const isFinished = this.chunkNumber === this.chunkCount
 
