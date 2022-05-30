@@ -18,10 +18,16 @@ Resumable chunk upload uses two APIs in its system. When you start the upload, i
 
 ## Install
 
-Start by installing the package:
+Installation via a package manager:
 
 ```bash
 npm install resumable-chunk-upload
+```
+
+Include via CDN
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/resumable-chunk-upload/dist/uploader.min.js"></script>
 ```
 
 ## Sample usage
