@@ -11,5 +11,5 @@ pnpm install
 Run the server:
 
 ```bash
-pnpm start
+pnpm dev
 ```
