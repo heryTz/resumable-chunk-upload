@@ -5,6 +5,7 @@
     "build": "turbo run build"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.5",
     "turbo": "^2.0.4"
   },
   "packageManager": "pnpm@9.0.0"
