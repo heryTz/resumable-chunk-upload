@@ -187,7 +187,7 @@ class UploadError {
      */
     data: any;
 }
-``` 
+```
 
 | Message | Data | Description |
 |---------|------|-------------|
