@@ -1,5 +1,6 @@
 {
-  "name": "node",
+  "name": "examples-expressjs",
+  "private": true,
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
