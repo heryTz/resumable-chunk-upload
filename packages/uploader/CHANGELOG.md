@@ -1,11 +1,5 @@
 # resumable-chunk-upload
 
-## 2.0.0
-
-### Major Changes
-
-- 32d968a: fix doc (test auto publish)
-
 ## 1.2.1
 
 ### Patch Changes
