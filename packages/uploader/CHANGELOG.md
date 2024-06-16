@@ -1,5 +1,11 @@
 # resumable-chunk-upload
 
+## 1.2.0
+
+### Minor Changes
+
+- 18c4a01: fix breaking doc, import
+
 ## 1.1.0
 
 ### Minor Changes
