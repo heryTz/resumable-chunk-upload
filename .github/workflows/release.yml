@@ -12,6 +12,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      repository-projects: write
     name: Release
     runs-on: ubuntu-latest
     steps:
