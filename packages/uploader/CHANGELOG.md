@@ -1,5 +1,11 @@
 # resumable-chunk-upload
 
+## 1.2.1
+
+### Patch Changes
+
+- 57e7c0d: fix doc
+
 ## 1.2.0
 
 ### Minor Changes
