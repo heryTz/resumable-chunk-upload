@@ -1,0 +1,33 @@
+{
+  "name": "resumable-chunk-upload",
+  "version": "1.0.7",
+  "description": "Resumable chunk upload",
+  "main": "uploader.js",
+  "types": "./index.d.ts",
+  "type": "module",
+  "scripts": {
+    "prebuild": "rimraf dist && mkdirp dist && cp ../../README.md dist/ && cp index.d.ts dist/ && cp package.json dist/",
+    "build": "NODE_ENV=prod node esbuild.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heryTz/resumable-chunk-upload.git"
+  },
+  "keywords": [
+    "Resumable",
+    "chunk",
+    "upload"
+  ],
+  "author": "Hery Nirintsoa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/heryTz/resumable-chunk-upload/issues"
+  },
+  "homepage": "https://github.com/heryTz/resumable-chunk-upload#readme",
+  "devDependencies": {
+    "esbuild": "^0.14.39",
+    "mkdirp": "^3.0.1",
+    "rimraf": "^5.0.7",
+    "typescript": "^4.6.4"
+  }
+}

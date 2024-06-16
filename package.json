@@ -1,30 +1,12 @@
 {
-  "name": "resumable-chunk-upload",
-  "version": "1.0.7",
-  "description": "Resumable chunk upload",
-  "main": "dist/uploader.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
+  "name": "root",
+  "private": true,
   "scripts": {
-    "build": "NODE_ENV=prod node esbuild.js"
+    "build": "turbo run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/heryTz/resumable-chunk-upload.git"
-  },
-  "keywords": [
-    "Resumable",
-    "chunk",
-    "upload"
-  ],
-  "author": "Hery Nirintsoa",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/heryTz/resumable-chunk-upload/issues"
-  },
-  "homepage": "https://github.com/heryTz/resumable-chunk-upload#readme",
   "devDependencies": {
-    "esbuild": "^0.14.39",
-    "typescript": "^4.6.4"
-  }
+    "@changesets/cli": "^2.27.5",
+    "turbo": "^2.0.4"
+  },
+  "packageManager": "pnpm@9.0.0"
 }

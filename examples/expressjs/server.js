@@ -7,6 +7,7 @@ import UploadStore from './upload-store.js'
 const app = express()
 const port = 9000
 
+app.use(express.static('public'))
 app.use(cors())
 app.use(express.json({
 	limit: '50mo'
@@ -130,7 +131,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 })
 
 app.get('/', (_, res) => {
-	res.send('Node backend - Resumable chunk upload')
+	res.render('index.html')
 })
 
 app.listen(port, () => {
