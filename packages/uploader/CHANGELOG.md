@@ -1,5 +1,11 @@
 # resumable-chunk-upload
 
+## 1.2.2
+
+### Patch Changes
+
+- 14ad41d: fix doc (test auto publish)
+
 ## 1.2.1
 
 ### Patch Changes
