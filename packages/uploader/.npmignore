@@ -1,6 +1,3 @@
-examples-back
-examples-front
 src
 esbuild.js
 api.yaml
-*.code-workspace

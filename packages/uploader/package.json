@@ -2,11 +2,11 @@
   "name": "resumable-chunk-upload",
   "version": "1.1.0",
   "description": "Resumable chunk upload",
-  "main": "uploader.js",
+  "main": "dist/uploader.js",
   "types": "./index.d.ts",
   "type": "module",
   "scripts": {
-    "prebuild": "rimraf dist && mkdirp dist && cp ../../README.md dist/ && cp index.d.ts dist/ && cp package.json dist/",
+    "prebuild": "rimraf dist && mkdirp dist && cp ../../README.md ./",
     "build": "NODE_ENV=prod node esbuild.js"
   },
   "repository": {
