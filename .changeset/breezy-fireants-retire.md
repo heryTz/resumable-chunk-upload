@@ -1,5 +1,5 @@
 ---
-"resumable-chunk-upload": major
+"resumable-chunk-upload": patch
 ---
 
 fix doc (test auto publish)
