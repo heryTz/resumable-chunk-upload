@@ -1,26 +1,31 @@
 {
   "name": "rcu-express",
   "version": "0.0.0",
-  "description": "> TODO: description",
-  "author": "Hery Nirintsoa <hhery889@gmail.com>",
+  "description": "Express handler for Resumable Chunk Upload",
+  "author": "Hery Nirintsoa",
   "homepage": "https://github.com/heryTz/resumable-chunk-upload#readme",
-  "license": "ISC",
-  "main": "lib/express.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
-  "files": [
-    "lib"
-  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/heryTz/resumable-chunk-upload.git"
   },
   "scripts": {
-    "test": "node ./__tests__/express.test.js"
+    "prebuild": "rimraf dist",
+    "build": "tsup src/index.ts --format cjs,esm --dts"
   },
   "bugs": {
     "url": "https://github.com/heryTz/resumable-chunk-upload/issues"
+  },
+  "keywords": [
+    "Resumable",
+    "chunk",
+    "upload"
+  ],
+  "devDependencies": {
+    "rimraf": "^5.0.7",
+    "tsup": "^8.1.0"
   }
 }
