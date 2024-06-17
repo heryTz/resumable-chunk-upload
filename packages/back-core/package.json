@@ -1,7 +1,8 @@
 {
-  "name": "rcu-express",
+  "name": "rcu-back-core",
+  "private": true,
   "version": "0.0.0",
-  "description": "Express handler for Resumable Chunk Upload",
+  "description": "Backend core for Resumable Chunk Upload",
   "author": "Hery Nirintsoa",
   "homepage": "https://github.com/heryTz/resumable-chunk-upload#readme",
   "license": "MIT",
@@ -20,13 +21,10 @@
     "url": "https://github.com/heryTz/resumable-chunk-upload/issues"
   },
   "keywords": [
-    "Resumable",
+    "resumable",
     "chunk",
     "upload"
   ],
-  "dependencies": {
-    "rcu-back-core": "workspace:*"
-  },
   "devDependencies": {
     "@types/node": "^20.14.2",
     "rimraf": "^5.0.7",
