@@ -1,5 +1,11 @@
 # rcu-back-core
 
+## 0.0.3
+
+### Patch Changes
+
+- 8c99465: test internal deps
+
 ## 0.0.2
 
 ### Patch Changes
