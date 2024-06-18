@@ -24,9 +24,6 @@
     "chunk",
     "upload"
   ],
-  "dependencies": {
-    "rcu-back-core": "workspace:*"
-  },
   "devDependencies": {
     "@types/node": "^20.14.2",
     "rimraf": "^5.0.7",
