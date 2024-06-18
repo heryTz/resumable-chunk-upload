@@ -1,6 +1,13 @@
-import { writeFileSync } from "fs";
+import { unlinkSync, writeFileSync } from "fs";
 import type { StoreProviderInterface, Upload } from "./contract";
 import { readOrCreateFile } from "./util";
+
+type JsonData = {
+  rows: Upload[];
+};
+const defaultJsonData: JsonData = {
+  rows: [],
+};
 
 export class JsonStoreProvider implements StoreProviderInterface {
   private rows: Upload[] = [];
@@ -8,9 +15,22 @@ export class JsonStoreProvider implements StoreProviderInterface {
 
   constructor(filePath: string) {
     this.filePath = filePath;
-    readOrCreateFile(filePath)
-      .then((data) => {
-        this.rows = JSON.parse(data);
+    readOrCreateFile(filePath, JSON.stringify(defaultJsonData))
+      .then((content) => {
+        const data = JSON.parse(content) as JsonData;
+        if (Array.isArray(data.rows)) {
+          this.rows = data.rows;
+        } else {
+          this.rows = [];
+          unlinkSync(filePath);
+          readOrCreateFile(filePath, JSON.stringify(defaultJsonData)).catch(
+            (error) => {
+              console.log(
+                `Failed to create file ${filePath}: ${error.message}`
+              );
+            }
+          );
+        }
       })
       .catch((error) => {
         console.log(`Failed to read file ${filePath}: ${error.message}`);
@@ -49,6 +69,9 @@ export class JsonStoreProvider implements StoreProviderInterface {
   }
 
   persist() {
-    writeFileSync(this.filePath, JSON.stringify(this.rows));
+    writeFileSync(
+      this.filePath,
+      JSON.stringify({ rows: this.rows } as JsonData)
+    );
   }
 }

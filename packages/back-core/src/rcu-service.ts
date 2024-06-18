@@ -62,7 +62,7 @@ export class RCUService {
       return { message: "Chunk uploaded" };
     }
 
-    const outputFile = join(this.outputDir ?? this.tmpDir, originalFilename);
+    const outputFile = join(this.outputDir, originalFilename);
     const combinedFile = createWriteStream(outputFile);
 
     for (const chunk of uploadInfo.chunkFilenames) {

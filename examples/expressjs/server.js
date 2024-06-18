@@ -49,8 +49,8 @@ app.get('/uploadStatus', async (req, res) => {
 		if (!uploadInfo) {
 			const newUpload = await uploadStore.createItem(fileId, chunkCount)
 			// the last chunk is zero if the upload does not yet exist
-			return res.json({ lastChunk: newUpload.lastChunk })
-		}
+				return res.json({ lastChunk: newUpload.lastChunk })
+			}
 		
 		// Some validation
 		if (uploadInfo && chunkCount !== uploadInfo.chunkCount) {
