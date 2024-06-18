@@ -1,5 +1,13 @@
 # rcu-express
 
+## 0.0.3
+
+### Patch Changes
+
+- 8c99465: test internal deps
+- Updated dependencies [8c99465]
+  - rcu-back-core@0.0.3
+
 ## 0.0.2
 
 ### Patch Changes
