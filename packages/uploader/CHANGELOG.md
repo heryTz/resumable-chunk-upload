@@ -1,5 +1,11 @@
 # resumable-chunk-upload
 
+## 1.2.3
+
+### Patch Changes
+
+- 8cba914: ingore .turbo log
+
 ## 1.2.2
 
 ### Patch Changes
