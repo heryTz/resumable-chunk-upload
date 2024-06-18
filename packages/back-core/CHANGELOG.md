@@ -1,5 +1,11 @@
 # rcu-back-core
 
+## 0.0.2
+
+### Patch Changes
+
+- ef5687a: test internal deps
+
 ## 0.0.1
 
 ### Patch Changes

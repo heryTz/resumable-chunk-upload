@@ -1,7 +1,7 @@
 {
   "name": "rcu-back-core",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Backend core for Resumable Chunk Upload",
   "author": "Hery Nirintsoa",
   "homepage": "https://github.com/heryTz/resumable-chunk-upload#readme",
