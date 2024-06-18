@@ -1,4 +1,4 @@
-import { readFile, unlink, writeFile } from "fs/promises";
+import { access, readFile, unlink, writeFile } from "fs/promises";
 import { createWriteStream } from "fs";
 import { join } from "path";
 import { StoreProviderInterface } from "./contract";
@@ -66,12 +66,17 @@ export class RCUService {
     const combinedFile = createWriteStream(outputFile);
 
     for (const chunk of uploadInfo.chunkFilenames) {
-      const chunkPath = join(this.tmpDir, chunk);
-      let data = await readFile(chunkPath);
-      combinedFile.write(data);
-      unlink(chunkPath).catch((error) => {
-        console.log(`Cannot delete chunk ${chunk} of id ${chunkId}`, error);
-      });
+      try {
+        const chunkPath = join(this.tmpDir, chunk);
+        await access(chunkPath)
+        let data = await readFile(chunkPath);
+        combinedFile.write(data);
+        unlink(chunkPath).catch((error) => {
+          console.log(`Cannot delete chunk ${chunk} of id ${chunkId}`, error);
+        });
+      } catch (error) {
+        throw new Error(`Some chunks are broken.`)
+      }
     }
 
     // TODO: validate combined file (eg: by file size)
