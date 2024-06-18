@@ -18,7 +18,7 @@ type UploadDto = {
   file: Buffer;
 };
 
-export class Service {
+export class RCUService {
   constructor(
     private store: StoreProviderInterface,
     private tmpDir: string,
