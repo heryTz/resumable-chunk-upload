@@ -1,44 +1,34 @@
-import { readFile, unlink, writeFile } from "fs/promises";
+import { access, readFile, unlink, writeFile } from "fs/promises";
 import { createWriteStream } from "fs";
 import { join } from "path";
-import { StoreProviderInterface } from "./contract";
+import {
+  RCUConfig,
+  RCUServiceInterface,
+  UploadDto,
+  UploadStatusQuery,
+} from "./contract";
 
-type UploadStatusQuery = {
-  chunkCount: number;
-  fileId: string;
-};
+type Config = Required<Pick<RCUConfig, "store" | "tmpDir" | "outputDir">> &
+  Pick<RCUConfig, "onCompleted">;
 
-type UploadDto = {
-  fileId: string;
-  chunkNumber: number;
-  originalFilename: string;
-  chunkCount: number;
-  chunkSize: number;
-  fileSize: number;
-  file: Buffer;
-};
-
-export class RCUService {
-  constructor(
-    private store: StoreProviderInterface,
-    private tmpDir: string,
-    private outputDir: string
-  ) {}
+export class RCUService implements RCUServiceInterface {
+  constructor(private config: Config) {}
 
   async uploadStatus(query: UploadStatusQuery) {
+    const { store } = this.config;
     const { fileId, chunkCount } = query;
-    const uploadInfo = await this.store.getItem(fileId);
+    const uploadInfo = await store.getItem(fileId);
 
     if (!uploadInfo) {
-      const newUpload = await this.store.createItem(fileId, chunkCount);
+      const newUpload = await store.createItem(fileId, chunkCount);
       // the last chunk is zero if the upload does not yet exist
       return { lastChunk: newUpload.lastUploadedChunkNumber };
     }
 
     // Some validation
     if (uploadInfo && chunkCount !== uploadInfo.chunkCount) {
-      await this.store.removeItem(fileId);
-      const newUpload = await this.store.createItem(fileId, chunkCount);
+      await store.removeItem(fileId);
+      const newUpload = await store.createItem(fileId, chunkCount);
       return { lastChunk: newUpload.lastUploadedChunkNumber };
     }
 
@@ -46,14 +36,15 @@ export class RCUService {
   }
 
   async upload(dto: UploadDto) {
+    const { store, tmpDir, outputDir, onCompleted } = this.config;
     const { fileId, chunkNumber, file, originalFilename } = dto;
-    let uploadInfo = await this.store.getItem(fileId);
+    let uploadInfo = await store.getItem(fileId);
     if (!uploadInfo) throw new Error(`Invalid upload info ${fileId}`);
 
     const chunkId = `${chunkNumber}-${fileId}`;
-    await writeFile(join(this.tmpDir, chunkId), file);
+    await writeFile(join(tmpDir, chunkId), file);
 
-    uploadInfo = await this.store.updateItem(fileId, {
+    uploadInfo = await store.updateItem(fileId, {
       chunkFilenames: uploadInfo.chunkFilenames.concat(chunkId),
       lastUploadedChunkNumber: chunkNumber,
     });
@@ -62,21 +53,32 @@ export class RCUService {
       return { message: "Chunk uploaded" };
     }
 
-    const outputFile = join(this.outputDir ?? this.tmpDir, originalFilename);
+    const outputFile = join(outputDir, originalFilename);
     const combinedFile = createWriteStream(outputFile);
 
     for (const chunk of uploadInfo.chunkFilenames) {
-      const chunkPath = join(this.tmpDir, chunk);
-      let data = await readFile(chunkPath);
-      combinedFile.write(data);
-      unlink(chunkPath).catch((error) => {
-        console.log(`Cannot delete chunk ${chunk} of id ${chunkId}`, error);
-      });
+      try {
+        const chunkPath = join(tmpDir, chunk);
+        await access(chunkPath);
+        let data = await readFile(chunkPath);
+        combinedFile.write(data);
+        unlink(chunkPath).catch((error) => {
+          console.log(`Cannot delete chunk ${chunk} of id ${chunkId}`, error);
+        });
+      } catch (error) {
+        await unlink(outputFile);
+        combinedFile.end();
+        await store.removeItem(fileId);
+        throw new Error(`File corrupted`);
+      }
     }
 
     // TODO: validate combined file (eg: by file size)
     combinedFile.end();
-    await this.store.removeItem(fileId);
+    await store.removeItem(fileId);
+    if (onCompleted) {
+      onCompleted({ outputFile, fileId });
+    }
 
     return { message: "Upload complete", outputFile };
   }
