@@ -2,10 +2,10 @@ import { unlinkSync, writeFileSync } from "fs";
 import type { StoreProviderInterface, Upload } from "./contract";
 import { readOrCreateFile } from "./util";
 
-type JsonData = {
+export type JsonStoreData = {
   rows: Upload[];
 };
-const defaultJsonData: JsonData = {
+const defaultJsonData: JsonStoreData = {
   rows: [],
 };
 
@@ -17,7 +17,7 @@ export class JsonStoreProvider implements StoreProviderInterface {
     this.filePath = filePath;
     readOrCreateFile(filePath, JSON.stringify(defaultJsonData))
       .then((content) => {
-        const data = JSON.parse(content) as JsonData;
+        const data = JSON.parse(content) as JsonStoreData;
         if (Array.isArray(data.rows)) {
           this.rows = data.rows;
         } else {
@@ -43,7 +43,7 @@ export class JsonStoreProvider implements StoreProviderInterface {
 
   async createItem(id: string, chunkCount: number): Promise<Upload> {
     if (this.rows.find((el) => el.id === id))
-      throw `Upload already exist for ${id}`;
+      throw new Error(`Upload already exist for ${id}`);
     this.rows.push({
       id,
       chunkCount,
@@ -71,7 +71,7 @@ export class JsonStoreProvider implements StoreProviderInterface {
   persist() {
     writeFileSync(
       this.filePath,
-      JSON.stringify({ rows: this.rows } as JsonData)
+      JSON.stringify({ rows: this.rows } as JsonStoreData)
     );
   }
 }

@@ -1,3 +1,3 @@
 export * from "./contract";
-export * from "./json-store-provider";
+export { JsonStoreProvider } from "./json-store-provider";
 export * from "./rcu-service";

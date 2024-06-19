@@ -1,4 +1,4 @@
-import { readFile, access, mkdir, writeFile } from "fs/promises";
+import { readFile, access, mkdir, writeFile, unlink } from "fs/promises";
 import path from "path";
 
 export async function readOrCreateFile(
@@ -14,4 +14,15 @@ export async function readOrCreateFile(
   }
   const data = await readFile(filePath);
   return data.toString() || defaultData;
+}
+
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export async function deleteFile(filePath: string) {
+  try {
+    await access(filePath);
+    await unlink(filePath);
+  } catch (error) {}
 }
