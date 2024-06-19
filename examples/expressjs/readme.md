@@ -1,6 +1,6 @@
-# Sample backend Nodejs for Resumable Chunk Upload
+# Expressjs example for Resumable Chunk Upload
 
-This is an example that is already functional. Do not hesitate to adapt it according to your needs.
+This is an example show how to use ```rcu-express```
 
 Install:
 
