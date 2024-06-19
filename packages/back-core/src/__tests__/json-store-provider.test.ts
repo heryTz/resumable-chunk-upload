@@ -1,10 +1,9 @@
-import { unlinkSync } from "fs";
 import { JsonStoreData, JsonStoreProvider } from "../json-store-provider";
 import { deleteFile, readOrCreateFile, sleep } from "../util";
 
 describe(JsonStoreProvider.name, () => {
   it("get item", async () => {
-    const file = "./tmp/rcu-get-item-1.json";
+    const file = "./tmp/test-store-1.json";
     await deleteFile(file);
     await readOrCreateFile(
       file,
@@ -26,7 +25,7 @@ describe(JsonStoreProvider.name, () => {
   });
 
   it("create item", async () => {
-    const file = "./tmp/rcu-get-item-2.json";
+    const file = "./tmp/test-store-2.json";
     await deleteFile(file);
     await readOrCreateFile(file, JSON.stringify({ rows: [] } as JsonStoreData));
     const store = new JsonStoreProvider(file);
@@ -37,7 +36,7 @@ describe(JsonStoreProvider.name, () => {
   });
 
   it("cannot create item with existing id", async () => {
-    const file = "./tmp/rcu-get-item-3.json";
+    const file = "./tmp/test-store-3.json";
     await deleteFile(file);
     await readOrCreateFile(
       file,
@@ -60,7 +59,7 @@ describe(JsonStoreProvider.name, () => {
   });
 
   it("update item", async () => {
-    const file = "./tmp/rcu-get-item-4.json";
+    const file = "./tmp/test-store-4.json";
     await deleteFile(file);
     await readOrCreateFile(
       file,
@@ -91,7 +90,7 @@ describe(JsonStoreProvider.name, () => {
   });
 
   it("delete item", async () => {
-    const file = "./tmp/rcu-get-item-5.json";
+    const file = "./tmp/test-store-5.json";
     await deleteFile(file);
     await readOrCreateFile(
       file,

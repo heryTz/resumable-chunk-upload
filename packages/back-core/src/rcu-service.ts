@@ -68,14 +68,17 @@ export class RCUService {
     for (const chunk of uploadInfo.chunkFilenames) {
       try {
         const chunkPath = join(this.tmpDir, chunk);
-        await access(chunkPath)
+        await access(chunkPath);
         let data = await readFile(chunkPath);
         combinedFile.write(data);
         unlink(chunkPath).catch((error) => {
           console.log(`Cannot delete chunk ${chunk} of id ${chunkId}`, error);
         });
       } catch (error) {
-        throw new Error(`Some chunks are broken.`)
+        await unlink(outputFile);
+        combinedFile.end();
+        await this.store.removeItem(fileId);
+        throw new Error(`File corrupted`);
       }
     }
 
