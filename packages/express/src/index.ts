@@ -1,15 +1,9 @@
 import {
   JsonStoreProvider,
   RCUService,
-  StoreProviderInterface,
+  ResumableChunkUploadConfig,
 } from "rcu-back-core";
-import { HandlerConfig, handler } from "./handler";
-
-export type ResumableChunkUploadConfig = HandlerConfig & {
-  store?: StoreProviderInterface;
-  tmpDir?: string;
-  outputDir?: string;
-};
+import { handler } from "./handler";
 
 export function resumableChunkUpload(config: ResumableChunkUploadConfig) {
   const {
@@ -24,4 +18,5 @@ export {
   JsonStoreProvider,
   StoreProviderInterface,
   Upload,
+  ResumableChunkUploadConfig,
 } from "rcu-back-core";

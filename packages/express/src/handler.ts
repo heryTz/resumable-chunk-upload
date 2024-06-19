@@ -1,12 +1,10 @@
 import { Request, Response, NextFunction, Router } from "express";
-import { type RCUService } from "rcu-back-core";
+import {
+  type ResumableChunkUploadConfig,
+  type RCUService,
+} from "rcu-back-core";
 import { ZodError, z } from "zod";
 import multer from "multer";
-
-export type HandlerConfig = {
-  uploadStatusPath?: string;
-  uploadPath?: string;
-};
 
 const uploadStatusSchema = z.object({
   fileId: z.string().min(1),
@@ -23,7 +21,10 @@ const uploadSchema = z.object({
   file: z.instanceof(Buffer),
 });
 
-export function handler(service: RCUService, config?: HandlerConfig): Router {
+export function handler(
+  service: RCUService,
+  config?: Pick<ResumableChunkUploadConfig, "uploadPath" | "uploadStatusPath">
+): Router {
   const { uploadStatusPath = "/uploadStatus", uploadPath = "/upload" } =
     config ?? {};
 

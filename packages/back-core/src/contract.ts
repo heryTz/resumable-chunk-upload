@@ -11,3 +11,11 @@ export interface StoreProviderInterface {
   updateItem(id: string, update: Partial<Upload>): Promise<Upload>;
   removeItem(id: string): Promise<void>;
 }
+
+export type ResumableChunkUploadConfig = {
+  store?: StoreProviderInterface;
+  tmpDir?: string;
+  outputDir?: string;
+  uploadStatusPath?: string;
+  uploadPath?: string;
+};
