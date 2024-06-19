@@ -18,6 +18,7 @@ export type RCUConfig = {
   outputDir?: string;
   uploadStatusPath?: string;
   uploadPath?: string;
+  onCompleted?: (data: { outputFile: string; fileId: string }) => Promise<void>;
 };
 
 export type UploadStatusQuery = {

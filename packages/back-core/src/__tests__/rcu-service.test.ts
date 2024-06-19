@@ -24,7 +24,11 @@ describe(RCUService.name, () => {
     );
     const store = new JsonStoreProvider(file);
     await sleep(100);
-    const service = new RCUService(store, "./tmp", "./tmp");
+    const service = new RCUService({
+      store,
+      tmpDir: "./tmp",
+      outputDir: "./tmp",
+    });
     const response = await service.uploadStatus({
       fileId: "file.txt",
       chunkCount: 4,
@@ -38,7 +42,11 @@ describe(RCUService.name, () => {
     await readOrCreateFile(file, JSON.stringify({ rows: [] } as JsonStoreData));
     const store = new JsonStoreProvider(file);
     await sleep(100);
-    const service = new RCUService(store, "./tmp", "./tmp");
+    const service = new RCUService({
+      store,
+      tmpDir: "./tmp",
+      outputDir: "./tmp",
+    });
     const response = await service.uploadStatus({
       fileId: "file.txt",
       chunkCount: 4,
@@ -52,7 +60,11 @@ describe(RCUService.name, () => {
     await readOrCreateFile(file, JSON.stringify({ rows: [] } as JsonStoreData));
     const store = new JsonStoreProvider(file);
     await sleep(100);
-    const service = new RCUService(store, "./tmp", "./tmp");
+    const service = new RCUService({
+      store,
+      tmpDir: "./tmp",
+      outputDir: "./tmp",
+    });
     expect(
       service.upload({
         file: fileBuffer,
@@ -84,7 +96,11 @@ describe(RCUService.name, () => {
     );
     const store = new JsonStoreProvider(file);
     await sleep(100);
-    const service = new RCUService(store, "./tmp", "./tmp");
+    const service = new RCUService({
+      store,
+      tmpDir: "./tmp",
+      outputDir: "./tmp",
+    });
     const response = await service.upload({
       file: fileBuffer,
       fileId: "test-chunk-uploaded.txt",
@@ -97,7 +113,7 @@ describe(RCUService.name, () => {
     expect(response.message).toBe("Chunk uploaded");
   });
 
-  it("upload complete", async () => {
+  it("upload complete and call onCompleted", async () => {
     const file = "./tmp/test-service-5.json";
     await deleteFile(file);
     await writeFile("./tmp/1-chunk.txt", "chunk-1-data\n");
@@ -117,7 +133,13 @@ describe(RCUService.name, () => {
     );
     const store = new JsonStoreProvider(file);
     await sleep(100);
-    const service = new RCUService(store, "./tmp", "./tmp");
+    const onCompletedFn = jest.fn();
+    const service = new RCUService({
+      store,
+      tmpDir: "./tmp",
+      outputDir: "./tmp",
+      onCompleted: onCompletedFn,
+    });
     const response = await service.upload({
       file: fileBuffer,
       fileId: "test-upload-complete.txt",
@@ -128,6 +150,10 @@ describe(RCUService.name, () => {
       originalFilename: "test-upload-complete.txt",
     });
     expect(response.message).toBe("Upload complete");
+    expect(onCompletedFn).toHaveBeenCalledWith({
+      fileId: "test-upload-complete.txt",
+      outputFile: "tmp/test-upload-complete.txt",
+    });
   });
 
   it("file corrupted", async () => {
@@ -148,7 +174,11 @@ describe(RCUService.name, () => {
     );
     const store = new JsonStoreProvider(file);
     await sleep(100);
-    const service = new RCUService(store, "./tmp", "./tmp");
+    const service = new RCUService({
+      store,
+      tmpDir: "./tmp",
+      outputDir: "./tmp",
+    });
     expect(
       service.upload({
         file: fileBuffer,
