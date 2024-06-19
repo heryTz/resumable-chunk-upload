@@ -1,24 +1,14 @@
 import { access, readFile, unlink, writeFile } from "fs/promises";
 import { createWriteStream } from "fs";
 import { join } from "path";
-import { StoreProviderInterface } from "./contract";
+import {
+  RCUServiceInterface,
+  StoreProviderInterface,
+  UploadDto,
+  UploadStatusQuery,
+} from "./contract";
 
-type UploadStatusQuery = {
-  chunkCount: number;
-  fileId: string;
-};
-
-type UploadDto = {
-  fileId: string;
-  chunkNumber: number;
-  originalFilename: string;
-  chunkCount: number;
-  chunkSize: number;
-  fileSize: number;
-  file: Buffer;
-};
-
-export class RCUService {
+export class RCUService implements RCUServiceInterface {
   constructor(
     private store: StoreProviderInterface,
     private tmpDir: string,

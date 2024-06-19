@@ -12,10 +12,30 @@ export interface StoreProviderInterface {
   removeItem(id: string): Promise<void>;
 }
 
-export type ResumableChunkUploadConfig = {
+export type RCUConfig = {
   store?: StoreProviderInterface;
   tmpDir?: string;
   outputDir?: string;
   uploadStatusPath?: string;
   uploadPath?: string;
 };
+
+export type UploadStatusQuery = {
+  chunkCount: number;
+  fileId: string;
+};
+
+export type UploadDto = {
+  fileId: string;
+  chunkNumber: number;
+  originalFilename: string;
+  chunkCount: number;
+  chunkSize: number;
+  fileSize: number;
+  file: Buffer;
+};
+
+export interface RCUServiceInterface {
+  uploadStatus(query: UploadStatusQuery): Promise<{ lastChunk: number }>;
+  upload(dto: UploadDto): Promise<{ message: string; outputFile?: string }>;
+}

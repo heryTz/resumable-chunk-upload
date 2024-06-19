@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "release": "turbo build && changeset publish"
+    "test": "turbo run test",
+    "release": "turbo run build test && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.5",
