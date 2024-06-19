@@ -1,5 +1,11 @@
 # rcu-express
 
+## 0.0.6
+
+### Patch Changes
+
+- bad3a33: feat: expressjs example
+
 ## 0.0.5
 
 ### Patch Changes
