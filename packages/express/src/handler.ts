@@ -10,11 +10,11 @@ const uploadStatusSchema = z.object({
 
 const uploadSchema = z.object({
   fileId: z.string().min(1),
-  chunkNumber: z.number(),
+  chunkNumber: z.coerce.number(),
   originalFilename: z.string().min(1),
-  chunkCount: z.number(),
-  chunkSize: z.number(),
-  fileSize: z.number(),
+  chunkCount: z.coerce.number(),
+  chunkSize: z.coerce.number(),
+  fileSize: z.coerce.number(),
   file: z.instanceof(Buffer),
 });
 
