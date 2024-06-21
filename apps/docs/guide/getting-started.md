@@ -1,11 +1,5 @@
 # Getting Started
 
-## Overview
-
-Resumable Chunk Upload allows uploading files in small chunks. it offers a **simple class** easy
-to set up and relevant data such as the **progress** and the **remaining time**  of the upload.
-It also manages the **resumption of the upload** in case of failure.
-
 ## Installation
 
 Via a package manager:
@@ -59,6 +53,9 @@ document.querySelector('input').addEventListener('change', e => {
         .catch(error => {
             if (error instanceof UploadError) {
                 // This is a custom error to make it easier to manage
+                if (error.message === 'UPLOAD_FILE_ERROR') {
+                    // Do something
+                }
             } else {
                 // Other error
             }
@@ -81,4 +78,8 @@ document.querySelector('input').addEventListener('change', e => {
 
 ## Backend
 
-You can choose from the existing solutions or create your own integration. You can see the details here [Backend](/backend).
+You can choose from the existing solutions or create your own integration. You can see the details here [Backend](/guide/backend-overview).
+
+## Full Example
+
+To see a full example of how to use Resumable Chunk Upload, you can check out the [demo repository](https://github.com/heryTz/resumable-chunk-upload/tree/main/examples). It includes both frontend and backend code, along with detailed instructions on how to set it up and run it.
