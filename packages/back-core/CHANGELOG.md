@@ -1,5 +1,11 @@
 # rcu-back-core
 
+## 1.0.0
+
+### Major Changes
+
+- aea2cc5: docs: website
+
 ## 0.0.5
 
 ### Patch Changes

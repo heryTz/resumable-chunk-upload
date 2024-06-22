@@ -1,6 +1,6 @@
 {
   "name": "rcu-express",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "description": "Express handler for Resumable Chunk Upload",
   "author": "Hery Nirintsoa",
   "homepage": "https://herytz.github.io/resumable-chunk-upload",

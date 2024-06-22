@@ -1,5 +1,16 @@
 # rcu-express
 
+## 1.0.0
+
+### Major Changes
+
+- aea2cc5: docs: website
+
+### Patch Changes
+
+- Updated dependencies [aea2cc5]
+  - rcu-back-core@1.0.0
+
 ## 0.0.6
 
 ### Patch Changes

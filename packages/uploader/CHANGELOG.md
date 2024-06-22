@@ -1,5 +1,11 @@
 # resumable-chunk-upload
 
+## 1.3.0
+
+### Minor Changes
+
+- aea2cc5: docs: website
+
 ## 1.2.3
 
 ### Patch Changes
