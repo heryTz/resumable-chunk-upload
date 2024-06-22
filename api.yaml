@@ -10,7 +10,7 @@ info:
 servers:
   - url: 'http://localhost:9000'
 paths:
-  /upload-status:
+  /uploadStatus:
     parameters: []
     get:
       summary: Retrieve last uploaded chunk's number
@@ -30,7 +30,7 @@ paths:
                 required:
                   - lastChunk
       operationId: upload-status
-      description: Retrieve last uploaded chunk's number
+      description: Retrieve last uploaded chunk's number. You can name this endpoint as you want.
       parameters:
         - schema:
             type: string
@@ -54,7 +54,7 @@ paths:
           description: |-
             You can just return a 200 to say the chunk upload is complete. Don't worry, we detect on the client side that the upload is finally finished and stopped.
             You can return any value in the response If it's necessary.
-      description: Upload all chunks one by one until termination.
+      description: Upload all chunks one by one until termination. You can name this endpoint as you want.
       requestBody:
         content:
           multipart/form-data:
