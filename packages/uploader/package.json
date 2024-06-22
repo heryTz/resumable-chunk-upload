@@ -14,7 +14,7 @@
     "url": "git+https://github.com/heryTz/resumable-chunk-upload.git"
   },
   "keywords": [
-    "Resumable",
+    "resumable",
     "chunk",
     "upload"
   ],
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/heryTz/resumable-chunk-upload/issues"
   },
-  "homepage": "https://github.com/heryTz/resumable-chunk-upload#readme",
+  "homepage": "https://herytz.github.io/resumable-chunk-upload",
   "devDependencies": {
     "esbuild": "^0.14.39",
     "mkdirp": "^3.0.1",

@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "description": "Backend core for Resumable Chunk Upload",
   "author": "Hery Nirintsoa",
-  "homepage": "https://github.com/heryTz/resumable-chunk-upload#readme",
+  "homepage": "https://herytz.github.io/resumable-chunk-upload",
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
