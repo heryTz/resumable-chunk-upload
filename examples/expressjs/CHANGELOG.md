@@ -1,5 +1,12 @@
 # examples-expressjs
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [aea2cc5]
+  - rcu-express@1.0.0
+
 ## 1.0.1
 
 ### Patch Changes
