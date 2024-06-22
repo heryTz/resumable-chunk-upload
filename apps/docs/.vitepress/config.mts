@@ -4,6 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Resumable Chunk Upload",
   description: "Easy way to do a resumable upload",
+  base: "/resumable-chunk-upload/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [{ text: "Guide", link: "/guide/getting-started" }],

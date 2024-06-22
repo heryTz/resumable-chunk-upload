@@ -24,7 +24,7 @@ Include via CDN
 
 ## Documentation
 
-Visit TODO_URL to view the full documentation.
+Visit [https://herytz.github.io/resumable-chunk-upload/](https://herytz.github.io/resumable-chunk-upload/) to view the full documentation.
 
 ## Examples
 
