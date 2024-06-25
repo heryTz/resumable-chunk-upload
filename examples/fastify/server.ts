@@ -1,16 +1,18 @@
 import Fastify from "fastify";
+import path from "path";
 import { resumableChunkUpload } from "rcu-fastify";
-import { makeRoute } from "./routes.js";
 
 const fastify = Fastify({
   logger: true,
 });
 
-// fastify.register(resumableChunkUpload());
-fastify.register(makeRoute());
+fastify.register(import("@fastify/static"), {
+  root: path.join(import.meta.dirname, "public"),
+});
+fastify.register(resumableChunkUpload());
 
 fastify.get("/", async function handler(request, reply) {
-  return { hello: "world" };
+  return reply.sendFile("index.html");
 });
 
 try {

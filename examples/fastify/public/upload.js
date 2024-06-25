@@ -1,5 +1,3 @@
-import Uploader, { UploadError } from 'https://cdn.jsdelivr.net/npm/resumable-chunk-upload/dist/uploader.js'
-
 const input = document.querySelector("input");
 const progress = document.querySelector("#progress");
 const remaining = document.querySelector("#remaining");
