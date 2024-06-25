@@ -26,7 +26,7 @@ export function handler(
     config ?? {};
 
   return async (fastify: FastifyInstance) => {
-    fastify.register(multipart);
+    fastify.register(multipart, { attachFieldsToBody: true });
 
     fastify.get(uploadStatusPath, async (request, reply) => {
       try {
@@ -43,10 +43,13 @@ export function handler(
 
     fastify.post(uploadPath, async (request, reply) => {
       try {
-        const file = await request.file();
+        const originalBody = (request.body ?? {}) as any;
+        const body = Object.fromEntries(
+          Object.keys(originalBody).map((key) => [key, originalBody[key].value])
+        );
         const dto = await uploadSchema.parse({
-          ...(request.body as any),
-          file: await file?.toBuffer(),
+          ...body,
+          file: await originalBody.file?.toBuffer(),
         });
         const response = await service.upload(dto);
         return reply.send(response);
