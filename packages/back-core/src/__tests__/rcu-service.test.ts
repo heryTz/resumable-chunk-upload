@@ -1,7 +1,7 @@
 import { writeFile } from "fs/promises";
 import { JsonStoreData, JsonStoreProvider } from "../json-store-provider";
 import { RCUService } from "../rcu-service";
-import { deleteFile, readOrCreateFile, sleep } from "../util";
+import { deleteDir, deleteFile, readOrCreateFile, sleep } from "../util";
 
 const fileBuffer = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
 
@@ -190,5 +190,42 @@ describe(RCUService.name, () => {
         originalFilename: "test-file-corrupted.txt",
       })
     ).rejects.toThrow("File corrupted");
+  });
+
+  it("upload chunk to other dir", async () => {
+    const otherDir = "./tmp-other";
+    await deleteDir(otherDir);
+    const file = "./tmp/test-service-7.json";
+    await deleteFile(file);
+    await readOrCreateFile(
+      file,
+      JSON.stringify({
+        rows: [
+          {
+            id: "test-chunk-uploaded-to-other-dir.txt",
+            chunkCount: 4,
+            chunkFilenames: [],
+            lastUploadedChunkNumber: 0,
+          },
+        ],
+      } as JsonStoreData)
+    );
+    const store = new JsonStoreProvider(file);
+    await sleep(100);
+    const service = new RCUService({
+      store,
+      tmpDir: otherDir,
+      outputDir: otherDir,
+    });
+    const response = await service.upload({
+      file: fileBuffer,
+      fileId: "test-chunk-uploaded-to-other-dir.txt",
+      chunkCount: 4,
+      chunkNumber: 1,
+      chunkSize: 1,
+      fileSize: 6,
+      originalFilename: "test-chunk-uploaded-to-other-dir.txt",
+    });
+    expect(response.message).toBe("Chunk uploaded");
   });
 });
