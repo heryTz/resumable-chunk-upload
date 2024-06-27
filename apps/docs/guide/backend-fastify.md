@@ -1,4 +1,4 @@
-# Express
+# Fastify
 
 ## Installation
 
@@ -7,15 +7,15 @@ Via a package manager:
 ::: code-group
 
 ```bash [npm]
-npm install rcu-express
+npm install rcu-fastify
 ```
 
 ```bash [yarn]
-yarn add rcu-express
+yarn add rcu-fastify
 ```
 
 ```bash [pnpm]
-pnpm add rcu-express
+pnpm add rcu-fastify
 ```
 
 :::
@@ -25,11 +25,11 @@ pnpm add rcu-express
 Add middleware:
 
 ```js
-import { resumableChunkUpload } from "rcu-express";
+import { resumableChunkUpload } from "rcu-fastify";
 
 // ...
 
-app.use(resumableChunkUpload());
+app.register(resumableChunkUpload());
 
 // ...
 ```
