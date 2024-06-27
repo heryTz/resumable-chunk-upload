@@ -1,5 +1,12 @@
 # rcu-back-core
 
+## 1.0.1
+
+### Patch Changes
+
+- 77f3948: add test with other dir
+- ea8fa24: fix rcu service with other dir than "tmp"
+
 ## 1.0.0
 
 ### Major Changes

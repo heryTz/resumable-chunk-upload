@@ -1,5 +1,15 @@
 # examples-expressjs
 
+## 1.0.1
+
+### Patch Changes
+
+- a90ce0e: feat: fastify lib, example, doc
+  feat: improve express example
+- Updated dependencies [4b7b76c]
+- Updated dependencies [a90ce0e]
+  - rcu-fastify@1.0.0
+
 ## 1.0.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # rcu-express
 
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [77f3948]
+- Updated dependencies [ea8fa24]
+  - rcu-back-core@1.0.1
+
 ## 1.0.0
 
 ### Major Changes
