@@ -1,4 +1,4 @@
-import { readFile, access, mkdir, writeFile, unlink } from "fs/promises";
+import { readFile, access, mkdir, writeFile, unlink, rm } from "fs/promises";
 import path from "path";
 
 export async function readOrCreateFile(
@@ -33,4 +33,11 @@ export async function createDir(dirPath: string) {
   } catch (error) {
     await mkdir(dirPath, { recursive: true });
   }
+}
+
+export async function deleteDir(dirPath: string) {
+  try {
+    await access(dirPath);
+    await rm(dirPath, { recursive: true });
+  } catch (error) {}
 }
