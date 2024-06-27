@@ -16,7 +16,7 @@ export default defineConfig({
           items: [
             { text: "Introduction", link: "/guide/introduction" },
             { text: "Getting Started", link: "/guide/getting-started" },
-            { text: "Frontend API", link: "/guide/frontend-api" }
+            { text: "Frontend API", link: "/guide/frontend-api" },
           ],
         },
         {
@@ -24,6 +24,7 @@ export default defineConfig({
           items: [
             { text: "Overview", link: "/guide/backend-overview" },
             { text: "Express", link: "/guide/backend-express" },
+            { text: "Fastify", link: "/guide/backend-fastify" },
           ],
         },
       ],
@@ -37,7 +38,7 @@ export default defineConfig({
     ],
 
     outline: {
-      level: 'deep',
-    }
+      level: "deep",
+    },
   },
 });
