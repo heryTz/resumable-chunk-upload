@@ -7,6 +7,7 @@ import {
   UploadDto,
   UploadStatusQuery,
 } from "./contract";
+import { createDir } from "./util";
 
 type Config = Required<Pick<RCUConfig, "store" | "tmpDir" | "outputDir">> &
   Pick<RCUConfig, "onCompleted">;
@@ -37,6 +38,9 @@ export class RCUService implements RCUServiceInterface {
 
   async upload(dto: UploadDto) {
     const { store, tmpDir, outputDir, onCompleted } = this.config;
+    await createDir(tmpDir);
+    await createDir(outputDir);
+
     const { fileId, chunkNumber, file, originalFilename } = dto;
     let uploadInfo = await store.getItem(fileId);
     if (!uploadInfo) throw new Error(`Invalid upload info ${fileId}`);
