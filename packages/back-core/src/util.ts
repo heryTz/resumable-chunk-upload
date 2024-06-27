@@ -26,3 +26,11 @@ export async function deleteFile(filePath: string) {
     await unlink(filePath);
   } catch (error) {}
 }
+
+export async function createDir(dirPath: string) {
+  try {
+    await access(dirPath);
+  } catch (error) {
+    await mkdir(dirPath, { recursive: true });
+  }
+}
