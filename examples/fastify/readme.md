@@ -1,6 +1,6 @@
-# Expressjs example for Resumable Chunk Upload
+# Fastify example for Resumable Chunk Upload
 
-This is an example show how to use ```rcu-express```
+This is an example show how to use ```rcu-fastify```
 
 Install:
 
