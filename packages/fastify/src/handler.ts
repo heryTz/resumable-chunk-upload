@@ -25,6 +25,9 @@ export function handler(
   const { uploadStatusPath = "/uploadStatus", uploadPath = "/upload" } =
     config ?? {};
 
+  // TODO: fix this error when running the tests
+  // Property 'get' does not exist on type 'FastifyInstance<RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, FastifyBaseLogger, FastifyTypeProviderDefault>'.
+
   return async (fastify: FastifyInstance) => {
     fastify.register(multipart, { attachFieldsToBody: true });
 
