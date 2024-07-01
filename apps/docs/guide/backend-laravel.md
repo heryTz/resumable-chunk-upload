@@ -10,6 +10,19 @@ composer require heryfitiavana/rcu-laravel
 
 ## Usage
 
+### CSRF
+Add the csrf token to the Uploader in frontend
+```js
+// get csrf token from meta tag : <meta name="csrf-token" content="{{ csrf_token() }}">
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
+new Uploader()
+    .setHeaders({
+        "X-CSRF-TOKEN": csrfToken,
+    })
+    /// ... others
+```
+
 ### Defining Routes
 
 Add the following routes to your `routes/web.php` file:
