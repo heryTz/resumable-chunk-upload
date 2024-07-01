@@ -4,7 +4,6 @@
 
 - [Express](/guide/backend-express)
 - [Fastify](/guide/backend-fastify)
-- [Laravel](/guide/backend-laravel)
 
 ## Community
 
