@@ -87,15 +87,6 @@ describe('AppController (e2e)', () => {
     });
 
     it('sshould throw invalid parameter', () => {
-      const dto: UploadDto = {
-        fileId: '123',
-        chunkNumber: 1,
-        originalFilename: 'file.txt',
-        chunkCount: 5,
-        chunkSize: 1024,
-        fileSize: 5120,
-      };
-
       jest.spyOn(rcuService, 'upload').mockImplementation(async () => ({
         message: 'Upload successful',
       }));
