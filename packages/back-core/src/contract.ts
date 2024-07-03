@@ -21,6 +21,9 @@ export type RCUConfig = {
   onCompleted?: (data: { outputFile: string; fileId: string }) => Promise<void>;
 };
 
+export type RCUServiceConfig = Required<Pick<RCUConfig, "store" | "tmpDir" | "outputDir">> &
+  Pick<RCUConfig, "onCompleted">;
+
 export type UploadStatusQuery = {
   chunkCount: number;
   fileId: string;
