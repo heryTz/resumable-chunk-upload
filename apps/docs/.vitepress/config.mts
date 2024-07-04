@@ -25,6 +25,7 @@ export default defineConfig({
             { text: "Overview", link: "/guide/backend-overview" },
             { text: "Express", link: "/guide/backend-express" },
             { text: "Fastify", link: "/guide/backend-fastify" },
+            { text: "NestJS", link: "/guide/backend-nestjs" },
             { text: "Symfony", link: "/guide/backend-symfony" },
             { text: "Laravel", link: "/guide/backend-laravel" },
           ],

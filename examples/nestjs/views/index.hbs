@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumable chunk upload</title>
+</head>
+<body>
+    <p>
+        <input type="file">
+        <button id="upload">Upload</button>
+        <button id="stop">Stop</button>
+    </p>
+    <p>
+        <b>Progress:</b> <span id="progress">0</span> %
+    </p>
+    <p>
+        <b>Remaining time:</b> <span id="remaining">0</span> seconds
+    </p>
+    <p id="feedback"></p>
+
+    <script src="https://cdn.jsdelivr.net/npm/resumable-chunk-upload/dist/uploader.min.js"></script>
+    <script src="/upload.js"></script>
+</body>
+</html>

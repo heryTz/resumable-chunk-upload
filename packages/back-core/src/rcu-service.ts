@@ -2,18 +2,16 @@ import { access, readFile, unlink, writeFile } from "fs/promises";
 import { createWriteStream } from "fs";
 import { join } from "path";
 import {
-  RCUConfig,
   RCUServiceInterface,
   UploadDto,
   UploadStatusQuery,
+  RCUServiceConfig
 } from "./contract";
 import { createDir } from "./util";
 
-type Config = Required<Pick<RCUConfig, "store" | "tmpDir" | "outputDir">> &
-  Pick<RCUConfig, "onCompleted">;
 
 export class RCUService implements RCUServiceInterface {
-  constructor(private config: Config) {}
+  constructor(protected config: RCUServiceConfig) {}
 
   async uploadStatus(query: UploadStatusQuery) {
     const { store } = this.config;

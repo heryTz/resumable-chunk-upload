@@ -5,6 +5,7 @@
 - [Express](/guide/backend-express)
 - [Fastify](/guide/backend-fastify)
 - [Symfony](/guide/backend-symfony)
+- [NestJS](/guide/backend-nestjs)
 
 ## Community
 
