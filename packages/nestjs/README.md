@@ -1,6 +1,6 @@
 # rcu-nestjs
 
-NestJS backend for [Resumable chunk upload](https://github.com/heryfitiavana22/resumable-chunk-upload)
+NestJS backend for Resumable Chunk Upload.
 
 ## Documentation
 
