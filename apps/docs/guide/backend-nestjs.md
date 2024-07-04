@@ -35,21 +35,73 @@ import { RCUModule } from 'rcu-nestjs';
 export class AppModule {}
 ```
 
-`RCUModule.forRoot()` method accepts a configuration object of type [RCUServiceConfig](#RCUServiceConfig) to customize the behavior of the module.
+`RCUModule.forRoot()` method accepts a configuration object of type [RCUModuleConfig](#RCUModuleConfig) to customize the behavior of the module.
+
+::: details Example RCUModuleConfig
+
+::: code-group
+
+```ts [app.module.ts] {8-14}
+/// ...
+import { JsonStoreProvider, RCUModule } from 'rcu-nestjs';
+import { LoggingService } from './logging.service';
+import { OnCompletedService } from './on-completed.service';
+
+@Module({
+  imports: [
+    RCUModule.forRoot({
+      store: new JsonStoreProvider('./tmp/rcu.json'),
+      tmpDir: './tmp',
+      outputDir: './tmp',
+      onCompletedService: OnCompletedService,
+      providers: [LoggingService, OnCompletedService],
+    }),
+  ],
+  /// ...
+})
+export class AppModule {}
+```
+
+```ts [logging.service.ts]
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class LoggingService {
+  log(message: string) {
+    console.log(message);
+  }
+}
+
+```
+
+```ts [on-completed.service.ts]
+import { Injectable } from '@nestjs/common';
+import { OnCompletedInterface } from 'rcu-nestjs';
+import { LoggingService } from './logging.service';
+
+@Injectable()
+export class OnCompletedService implements OnCompletedInterface {
+  constructor(private loggingService: LoggingService) {}
+
+  handle = async ({ outputFile, fileId }) => {
+    this.loggingService.log('File completed: ' + fileId);
+  };
+}
+```
+:::
 
 ## API
 
-### RCUServiceConfig <Badge type="info" text="interface" />
+### RCUModuleConfig <Badge type="info" text="interface" />
 
 ```ts
-export type RCUServiceConfig = {
-  store: StoreProviderInterface;
-  tmpDir: string;
-  outputDir: string;
-  onCompleted: (data: {
-    outputFile: string;
-    fileId: string;
-  }) => Promise<void>;
+export type RCUModuleConfig = {
+    store: StoreProviderInterface;
+    tmpDir: string;
+    outputDir: string;
+    onCompletedService: new (...args: any) => OnCompletedInterface;
+    providers: Provider[];
+    imports: (Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference<any>)[];
 };
 ```
 
@@ -74,11 +126,33 @@ Directory to save all binary chunks.
 
 Directory to save the complete file.
 
-#### onCompleted
+#### onCompletedService
 
-- Type: `(data: { outputFile: string; fileId: string }) => Promise<void>`
+- Type: `new (...args: any) => OnCompletedInterface`
 
-This callback function can be used to perform any additional actions or operations after the upload is completed, such as updating a database record or sending a notification.
+This service can be used to perform any additional actions or operations after the upload is completed, such as updating a database record or sending a notification. It implements the [OnCompletedInterface](#oncompletedinterface).
+
+#### providers
+
+- Type: Provider[]
+- Default: []
+
+This parameter is used to provide custom providers to the `RCUModule`.
+
+#### imports
+
+- Type: `(Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference<any>)[]`
+- Default: []
+
+This parameter is used to import custom modules into the `RCUModule`.
+
+### OnCompletedInterface <Badge type="info" text="interface" />
+
+```ts
+export interface OnCompletedInterface {
+  handle: (data: { outputFile: string; fileId: string }) => Promise<void>;
+}
+```
 
 - `outputFile`: Path of the uploaded file.
 - `fileId`: The ID of the file used to identify the upload. This is specified from [frontend](/guide/frontend-api#setfileid).
