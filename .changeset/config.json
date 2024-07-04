@@ -10,6 +10,7 @@
   "ignore": [
     "rcu-docs",
     "examples-expressjs",
-    "examples-fastify"
+    "examples-fastify",
+    "examples-nestjs"
   ]
 }
