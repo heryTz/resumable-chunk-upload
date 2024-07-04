@@ -1,5 +1,11 @@
 # rcu-back-core
 
+## 1.0.2
+
+### Patch Changes
+
+- ed159e2: feat nestjs backend
+
 ## 1.0.1
 
 ### Patch Changes
