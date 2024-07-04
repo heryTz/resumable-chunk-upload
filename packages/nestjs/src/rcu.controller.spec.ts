@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RCUController } from './rcu.controller';
 import { RCUServiceNest } from './rcu.service';
-import { RCU_SERVICE_CONFIG, RCU_SERVICE_DEFAULT_CONFIG } from './constant';
+import { RCU_SERVICE_CONFIG, RCU_MODULE_DEFAULT_CONFIG } from './constant';
 import { UploadStatusQueryDto } from './dto/upload-status-query.dto';
 import { UploadDto } from './dto/upload.dto';
 
@@ -15,7 +15,7 @@ describe('RCUController', () => {
       providers: [
         {
           provide: RCU_SERVICE_CONFIG,
-          useValue: RCU_SERVICE_DEFAULT_CONFIG,
+          useValue: RCU_MODULE_DEFAULT_CONFIG,
         },
         RCUServiceNest,
       ],

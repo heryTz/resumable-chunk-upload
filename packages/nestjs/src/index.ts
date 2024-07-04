@@ -1,4 +1,5 @@
 export { RCUModule } from './rcu.module';
+export { OnCompletedInterface, RCUModuleConfig } from './contract';
 
 export {
   JsonStoreProvider,
