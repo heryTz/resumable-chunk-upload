@@ -1,6 +1,6 @@
 {
   "name": "rcu-fastify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fastify handler for Resumable Chunk Upload",
   "author": "Hery Nirintsoa",
   "homepage": "https://herytz.github.io/resumable-chunk-upload",

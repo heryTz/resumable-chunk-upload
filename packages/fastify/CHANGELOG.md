@@ -1,5 +1,12 @@
 # rcu-fastify
 
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [ed159e2]
+  - rcu-back-core@1.0.2
+
 ## 1.0.0
 
 ### Major Changes
